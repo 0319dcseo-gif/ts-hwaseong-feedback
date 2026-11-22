@@ -1,0 +1,2676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f294a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>TS 화성교통안전체험교육센터 · 스마트 체험 피드백 v26</title>
+  <style>
+    :root {
+      --navy: #0f294a;
+      --navy-2: #1a3d6d;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --emerald: #059669;
+      --emerald-soft: #ecfdf5;
+      --amber: #d97706;
+      --amber-soft: #fffbeb;
+      --rose: #dc2626;
+      --rose-soft: #fef2f2;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --radius: 16px;
+      --shadow: 0 3px 14px rgba(15, 41, 74, 0.07);
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      margin: 0; padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      background: var(--bg); color: var(--text);
+      line-height: 1.48; -webkit-font-smoothing: antialiased;
+    }
+    button, input, select, textarea { font-family: inherit; }
+
+    /* Views */
+    .screen { display: none; min-height: 100vh; }
+    .screen.active { display: block; }
+
+    /* Header */
+    .top-bar {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      color: #fff; padding: 13px 16px;
+      position: sticky; top: 0; z-index: 40;
+      box-shadow: 0 3px 14px rgba(15, 41, 74, 0.16);
+    }
+    .top-bar-inner {
+      max-width: 1120px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .brand-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 15px; flex-shrink: 0;
+    }
+    .brand-title { font-size: 15.5px; font-weight: 800; letter-spacing: -0.3px; }
+    .brand-sub { font-size: 11px; color: #cbd5e1; }
+    .mode-switch-btn {
+      padding: 7px 12px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.28);
+      background: rgba(255,255,255,0.12); color: #fff;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      white-space: nowrap;
+    }
+    .mode-switch-btn:hover { background: rgba(255,255,255,0.22); }
+
+    /* Trainee Home Container */
+    .trainee-wrap { max-width: 680px; margin: 0 auto; padding: 16px 14px 44px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 16px;
+      box-shadow: var(--shadow); margin-bottom: 14px;
+    }
+    .step-title {
+      font-size: 14.5px; font-weight: 800; color: var(--navy);
+      margin-bottom: 10px; display: flex; align-items: center; gap: 7px;
+    }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--blue); color: #fff;
+      font-size: 12px; font-weight: 900;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .id-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 4px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 11px 12px; border-radius: 12px;
+      border: 1.8px solid #cbd5e1; background: #fff; color: var(--text);
+      font-size: 15px; font-weight: 700; outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: var(--blue); }
+
+    /* 5 Big Course Cards for Trainees */
+    .course-list { display: flex; flex-direction: column; gap: 10px; }
+    .t-course {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 15px 16px; border-radius: 14px;
+      border: 2px solid var(--border); background: #fff;
+      cursor: pointer; transition: all 0.14s ease; text-align: left; width: 100%;
+    }
+    .t-course:hover { border-color: #93c5fd; background: #f8fbff; }
+    .t-course.selected {
+      border-color: var(--blue); background: #eff6ff;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.16);
+    }
+    .tc-left { display: flex; align-items: center; gap: 12px; }
+    .tc-ico {
+      width: 46px; height: 46px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; background: #f1f5f9; flex-shrink: 0;
+    }
+    .t-course.selected .tc-ico { background: var(--blue); color: #fff; }
+    .tc-name { font-size: 16.5px; font-weight: 900; color: var(--navy); }
+    .tc-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .tc-arrow { font-size: 18px; color: #94a3b8; font-weight: 900; }
+    .t-course.selected .tc-arrow { color: var(--blue); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+      padding: 11px 16px; border-radius: 12px; border: none;
+      font-size: 14px; font-weight: 800; cursor: pointer;
+      transition: transform 0.08s ease, opacity 0.14s;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: var(--blue); color: #fff; }
+    .btn-navy { background: var(--navy); color: #fff; }
+    .btn-emerald { background: var(--emerald); color: #fff; }
+    .btn-amber { background: var(--amber); color: #fff; }
+    .btn-rose { background: var(--rose); color: #fff; }
+    .btn-outline { background: #fff; color: var(--navy); border: 1.6px solid #cbd5e1; }
+    .btn-soft { background: var(--blue-soft); color: var(--blue); }
+    .btn-sm { padding: 7px 11px; font-size: 12.5px; border-radius: 9px; }
+    .btn-xl { width: 100%; padding: 16px 20px; font-size: 17px; border-radius: 14px; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+    .https-pill {
+      font-size: 11.5px; padding: 8px 12px; border-radius: 10px;
+      background: #fffbeb; border: 1px solid #fde68a; color: #92400e;
+      margin-bottom: 12px; display: none;
+    }
+
+    /* ==================== LIVE FULLSCREEN SOLO HUD ==================== */
+    #view-live {
+      background: #0a1424; color: #f8fafc;
+      position: fixed; inset: 0; z-index: 100;
+      flex-direction: column; overflow: hidden;
+    }
+    #view-live.active { display: flex; }
+    .live-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 10px 14px; background: #0f1f38;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+    .live-course-lbl { font-size: 15px; font-weight: 900; }
+    .live-lap-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px; border-radius: 999px;
+      background: rgba(56, 189, 248, 0.18); color: #38bdf8;
+      font-size: 12px; font-weight: 800;
+    }
+    .live-cal-bar {
+      text-align: center; padding: 7px 12px; font-size: 13px; font-weight: 800;
+      background: #d97706; color: #fff; flex-shrink: 0;
+    }
+    .live-cal-bar.ready { background: #059669; }
+    .live-cal-bar.hazard { background: #dc2626; animation: flashRed 0.35s infinite alternate; }
+    @keyframes flashRed { from { background: #dc2626; } to { background: #991b1b; } }
+
+    .live-main {
+      flex: 1; position: relative; display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Mode A: Standard Split (Speed + Friction GG + Integrated 2.5D Mini Navi) */
+    .hud-split {
+      flex: 1; display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 10px; padding: 10px; overflow: hidden;
+    }
+    .hud-instruments {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    @media (max-width: 520px) {
+      .hud-instruments { grid-template-columns: 1fr 1.05fr; gap: 8px; }
+    }
+    .hud-card {
+      background: #132542; border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px; padding: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .speed-big {
+      font-size: clamp(54px, 13vw, 84px); font-weight: 900; line-height: 0.95;
+      letter-spacing: -2px; font-variant-numeric: tabular-nums;
+      color: #ffffff;
+    }
+    .speed-unit { font-size: 14px; font-weight: 800; color: #94a3b8; margin-top: 2px; }
+    .g-mini-row {
+      display: flex; gap: 10px; margin-top: 10px; width: 100%; justify-content: center;
+      font-size: 12px; font-weight: 800; color: #cbd5e1;
+    }
+    .g-mini-row span strong { color: #38bdf8; font-variant-numeric: tabular-nums; }
+
+    /* Integrated 2.5D Navi Box inside Live HUD */
+    .hud-navi-wrap {
+      position: relative; border-radius: 16px; overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.15); background: #0f172a;
+      min-height: 210px;
+    }
+    .hud-navi-wrap canvas { width: 100%; height: 100%; display: block; }
+
+    /* Full-Map Mode (PIEV default or user-expanded map) */
+    #view-live.map-full .hud-split { display: block; padding: 0; position: relative; height: 100%; }
+    #view-live.map-full .hud-navi-wrap {
+      position: absolute; inset: 0; border-radius: 0; border: none; height: 100%;
+    }
+    #view-live.map-full .hud-instruments {
+      position: absolute; right: 10px; bottom: 14px; z-index: 20;
+      display: flex; flex-direction: column; gap: 8px; width: 146px;
+      pointer-events: none;
+    }
+    #view-live.map-full .hud-card {
+      background: rgba(15, 31, 56, 0.86); backdrop-filter: blur(8px);
+      padding: 8px; border-radius: 14px;
+    }
+    #view-live.map-full .speed-big { font-size: 40px; }
+    #view-live.map-full .g-mini-row { margin-top: 4px; font-size: 10.5px; gap: 6px; }
+    #view-live.map-full #liveGGCanvas { width: 112px !important; height: 112px !important; }
+
+    /* TBT Banner over Navi Map */
+    .tbt-bar {
+      position: absolute; top: 10px; left: 10px; right: 10px; z-index: 15;
+      background: rgba(3, 199, 90, 0.94); color: #fff;
+      border-radius: 12px; padding: 8px 12px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+      pointer-events: none;
+    }
+    .tbt-bar.kakao { background: rgba(30, 41, 59, 0.94); }
+    .tbt-ico {
+      width: 38px; height: 38px; border-radius: 9px;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .tbt-bar.kakao .tbt-ico { background: #fee500; color: #111827; }
+    .tbt-dist { font-size: 17px; font-weight: 900; line-height: 1.1; }
+    .tbt-text { font-size: 12px; font-weight: 700; opacity: 0.96; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* Map Float Controls */
+    .map-ctrls {
+      position: absolute; left: 10px; bottom: 14px; z-index: 20;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .map-ctrl-btn {
+      padding: 7px 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(15, 23, 42, 0.82); color: #fff;
+      font-size: 11.5px; font-weight: 800; cursor: pointer;
+    }
+
+    /* Hazard Fullscreen Flash */
+    #hazardFlash {
+      display: none; position: fixed; inset: 0; z-index: 150;
+      background: rgba(220, 38, 38, 0.95); color: #fff;
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 24px; pointer-events: none;
+    }
+    #hazardFlash.show { display: flex; }
+
+    /* ==================== RESULT & INSTRUCTOR SCREENS ==================== */
+    .container { max-width: 1120px; margin: 0 auto; padding: 14px 14px 48px; }
+    .nav-tabs {
+      max-width: 1120px; margin: 10px auto 0;
+      display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      flex: 0 0 auto; padding: 8px 13px; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(255,255,255,0.08); color: #dbeafe;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+    .nav-tab.active { background: #fff; color: var(--navy); border-color: #fff; }
+    .itab-panel { display: none; }
+    .itab-panel.active { display: block; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    @media (max-width: 820px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 620px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    .stat-box {
+      background: #f8fafc; border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px;
+    }
+    .stat-k { font-size: 11.5px; font-weight: 700; color: var(--muted); }
+    .stat-v { font-size: 22px; font-weight: 900; color: var(--navy); margin-top: 2px; }
+    .stat-s { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+    .chart-box {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px;
+    }
+    .chart-box canvas { width: 100%; height: auto; display: block; }
+    .chart-h { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 6px; display: flex; justify-content: space-between; }
+
+    .lap-card {
+      border: 1.5px solid #e2e8f0; border-radius: 12px; padding: 12px;
+      background: #fff; display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; flex-wrap: wrap; margin-bottom: 8px;
+    }
+    .lap-badge {
+      padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800;
+      background: var(--blue-soft); color: var(--blue);
+    }
+
+    .rx-card {
+      border-left: 4px solid var(--blue); background: #f8fafc;
+      border-radius: 0 10px 10px 0; padding: 11px 13px; margin-bottom: 8px;
+    }
+    .rx-card.v { border-left-color: #2563eb; }
+    .rx-card.h { border-left-color: #059669; }
+    .rx-card.r { border-left-color: #d97706; }
+    .rx-title { font-size: 13px; font-weight: 800; color: var(--navy); margin-bottom: 3px; }
+    .rx-body { font-size: 12.5px; color: #334155; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: left; }
+    th { background: #f8fafc; color: var(--navy); font-weight: 800; white-space: nowrap; }
+
+    /* Standalone Nav Tab Viewport */
+    .nav-tab-viewport {
+      position: relative; width: 100%; height: 430px;
+      border-radius: 14px; overflow: hidden; border: 1px solid #cbd5e1;
+      background: #0f172a;
+    }
+    .nav-tab-viewport canvas { width: 100%; height: 100%; display: block; cursor: crosshair; }
+
+    /* A4 Report Paper */
+    .paper {
+      background: #fff; border: 1px solid #cbd5e1; border-radius: 12px;
+      padding: 22px 24px; max-width: 900px; margin: 0 auto;
+    }
+    .paper-head {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      border-bottom: 3px solid var(--navy); padding-bottom: 10px; margin-bottom: 14px;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .paper-sec {
+      font-size: 13.5px; font-weight: 800; color: var(--navy);
+      background: #f1f5f9; padding: 6px 10px; border-left: 4px solid var(--navy);
+      margin: 14px 0 8px; border-radius: 0 6px 6px 0;
+    }
+    .paper-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 620px) { .paper-charts { grid-template-columns: 1fr; } }
+    .paper-chart-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 8px; text-align: center; }
+    .paper-chart-card img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+    #toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #0f172a; color: #fff; padding: 10px 18px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; opacity: 0; pointer-events: none;
+      transition: all 0.22s ease; z-index: 250; max-width: 92vw; text-align: center;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media print {
+      body { background: #fff !important; }
+      .top-bar, .no-print, #view-trainee, #view-live, #view-result, #toast, .itab-panel:not(#itab-report) { display: none !important; }
+      #view-instructor, #itab-report { display: block !important; }
+      .container { padding: 0 !important; max-width: none !important; }
+      .paper { border: none !important; padding: 0 !important; box-shadow: none !important; }
+      .paper-chart-card, .rx-card, table { break-inside: avoid; }
+      @page { size: A4 portrait; margin: 12mm; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ==================== 1. 교육생 초간편 메인 화면 ==================== -->
+<section id="view-trainee" class="screen active">
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <div class="brand-mark">TS</div>
+        <div>
+          <div class="brand-title">화성교통안전체험교육센터</div>
+          <div class="brand-sub">스마트 체험주행 자동 분석 (v26)</div>
+        </div>
+      </div>
+      <button class="mode-switch-btn" id="btnOpenInstructor">교관 분석 · 리포트</button>
+    </div>
+  </header>
+
+  <div class="trainee-wrap">
+    <div id="httpsNotice" class="https-pill">
+      ⚠️ 스마트폰 실제 센서 측정은 <strong>HTTPS 주소(GitHub Pages 등)</strong>에서 작동합니다. 현재 화면에서는 하단 <strong>[시뮬레이션 체험]</strong>으로 전체 기능을 바로 확인할 수 있습니다.
+    </div>
+
+    <!-- Step 1: 번호 & 이름만 입력 -->
+    <div class="card">
+      <div class="step-title"><span class="step-num">1</span> 교육생 정보 입력</div>
+      <div class="id-grid">
+        <div class="field">
+          <label>교육생 번호</label>
+          <input type="text" id="inNumber" placeholder="예: 01" inputmode="numeric" />
+        </div>
+        <div class="field">
+          <label>이름</label>
+          <input type="text" id="inName" placeholder="성명 입력" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: 5대 코스 선택 -->
+    <div class="card">
+      <div class="step-title"><span class="step-num">2</span> 체험 코스 선택 (연속 주행 자동 분석)</div>
+      <div class="course-list" id="traineeCourseList"></div>
+    </div>
+
+    <!-- Step 3: 원터치 시작 -->
+    <button class="btn btn-primary btn-xl" id="btnStartReal">
+      선택 코스 주행 시작
+    </button>
+
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" id="btnStartSim">가상 다회차 시뮬레이션 체험</button>
+      <button class="btn btn-soft btn-sm" id="btnViewMyHistory">내 주행 결과 보기 (<span id="homeCount">0</span>)</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 2. 실시간 무인 주행 HUD (속도 + 마찰력계 + 2.5D 내비) ==================== -->
+<section id="view-live" class="screen">
+  <div class="live-top">
+    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+      <span class="live-course-lbl" id="liveTitle">직선제동코스</span>
+      <span class="live-lap-pill" id="liveLapPill">자동 감지: 0회</span>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-outline btn-sm" id="btnToggleMapFull" style="background:rgba(255,255,255,0.12); color:#fff; border-color:rgba(255,255,255,0.22);">지도 크게</button>
+      <button class="btn btn-rose btn-sm" id="btnStopRun">주행 종료</button>
+    </div>
+  </div>
+  <div id="liveCalBar" class="live-cal-bar">2초 정차 유지 — 자동 3D 센서 정렬 중...</div>
+
+  <div class="live-main">
+    <div class="hud-split">
+      <!-- 핵심 2가지: 속도 + 실시간 마찰력계 그래프 -->
+      <div class="hud-instruments">
+        <div class="hud-card">
+          <div style="font-size:11.5px; color:#94a3b8; font-weight:700;">현재 속도</div>
+          <div class="speed-big" id="liveSpeed">0</div>
+          <div class="speed-unit">km/h</div>
+          <div class="g-mini-row">
+            <span>제동 <strong id="liveAx">0.00G</strong></span>
+            <span>횡 <strong id="liveAy">0.00G</strong></span>
+          </div>
+        </div>
+        <div class="hud-card">
+          <div style="font-size:11.5px; color:#94a3b8; font-weight:700; margin-bottom:4px;">실시간 마찰력계 (G-G)</div>
+          <canvas id="liveGGCanvas" width="180" height="180" style="width:144px; height:144px;"></canvas>
+        </div>
+      </div>
+
+      <!-- 통합 2.5D 실전 내비게이션 -->
+      <div class="hud-navi-wrap" id="liveNaviBox">
+        <canvas id="liveNaviCanvas"></canvas>
+        <div class="tbt-bar" id="liveTbtBar">
+          <div class="tbt-ico" id="liveTbtIco"></div>
+          <div style="min-width:0; flex:1;">
+            <div class="tbt-dist" id="liveTbtDist">0 m</div>
+            <div class="tbt-text" id="liveTbtText">코스를 따라 주행하세요</div>
+          </div>
+          <div style="text-align:right; flex-shrink:0;">
+            <div style="font-size:10px; opacity:0.85;">권장속도</div>
+            <div style="font-size:16px; font-weight:900;" id="liveTbtLimit">50</div>
+          </div>
+        </div>
+        <div class="map-ctrls">
+          <button class="map-ctrl-btn" id="btnLiveMap3d">2.5D</button>
+          <button class="map-ctrl-btn" id="btnLiveMapSat">위성</button>
+          <button class="map-ctrl-btn" id="btnLiveMapTheme">네이버</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 돌발 경보 풀스크린 플래시 (PIEV 자동 발사) -->
+<div id="hazardFlash">
+  <div style="font-size:84px; line-height:1;">🛑</div>
+  <div style="font-size:40px; font-weight:900; margin-top:10px;">돌발! 즉시 급제동!</div>
+  <div style="font-size:18px; margin-top:8px;">완전 정지할 때까지 브레이크를 끝까지 밟으세요</div>
+</div>
+
+<!-- ==================== 3. 주행 직후 교육생 자동 분석 결과 화면 ==================== -->
+<section id="view-result" class="screen">
+  <header class="top-bar">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <div class="brand-mark">TS</div>
+        <div>
+          <div class="brand-title" id="resHeaderTitle">주행 자동 분석 완료</div>
+          <div class="brand-sub" id="resHeaderSub">교육생 결과 요약</div>
+        </div>
+      </div>
+      <button class="mode-switch-btn" id="btnResToHome">코스 선택</button>
+    </div>
+  </header>
+
+  <div class="trainee-wrap">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+        <div>
+          <div style="font-size:12px; color:var(--muted); font-weight:700;">3요소 종합 안전역량</div>
+          <div style="font-size:34px; font-weight:900; color:var(--navy); line-height:1.1;" id="resTotalScore">-점</div>
+        </div>
+        <div class="lap-badge" id="resLapSummary">자동 감지 0회차</div>
+      </div>
+      <div class="grid-3">
+        <div class="stat-box" style="border-top:3px solid #2563eb;"><div class="stat-k">🚗 자동차</div><div class="stat-v" id="resScoreV" style="color:#1d4ed8;">-</div></div>
+        <div class="stat-box" style="border-top:3px solid #059669;"><div class="stat-k">🧠 사람</div><div class="stat-v" id="resScoreH" style="color:#047857;">-</div></div>
+        <div class="stat-box" style="border-top:3px solid #d97706;"><div class="stat-k">🛣️ 도로환경</div><div class="stat-v" id="resScoreR" style="color:#b45309;">-</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step-title">자동 분할된 회차별 주행 분석</div>
+      <div id="resLapList"></div>
+    </div>
+
+    <div class="card">
+      <div class="step-title">사고 예방 핵심 피드백</div>
+      <div id="resRxList"></div>
+    </div>
+
+    <div class="grid-2">
+      <button class="btn btn-primary btn-xl" id="btnResNextCourse">다른 코스 주행하기</button>
+      <button class="btn btn-navy btn-xl" id="btnResDeepDive">상세 파형 · A4 리포트</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 4. 교관 · 상세 분석 · 내비 설정 · A4 리포트 화면 ==================== -->
+<section id="view-instructor" class="screen">
+  <header class="top-bar no-print">
+    <div class="top-bar-inner">
+      <div class="brand">
+        <div class="brand-mark">TS</div>
+        <div>
+          <div class="brand-title">교관 분석 · 2.5D 내비 보정 · A4 리포트</div>
+          <div class="brand-sub">자동차 · 사람 · 도로환경 3요소 통합 관리</div>
+        </div>
+      </div>
+      <button class="mode-switch-btn" id="btnBackTrainee">← 교육생 화면</button>
+    </div>
+    <nav class="nav-tabs" id="instNavTabs">
+      <button class="nav-tab active" data-itab="diag">1. 3요소 종합 진단</button>
+      <button class="nav-tab" data-itab="wave">2. 회차별 센서 파형</button>
+      <button class="nav-tab" data-itab="nav">3. 2.5D 내비 · GPS 보정</button>
+      <button class="nav-tab" data-itab="report">4. A4 피드백 · 백업</button>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ITAB 1: 3요소 종합 진단 -->
+    <div id="itab-diag" class="itab-panel active">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+          <div>
+            <div style="font-size:15.5px; font-weight:900; color:var(--navy);">교육생별 3요소 종합 안전진단</div>
+            <div style="font-size:12px; color:var(--muted);">연속 주행에서 자동 추출된 전체 코스 결과를 종합합니다.</div>
+          </div>
+          <div class="btn-row">
+            <select id="selDiagTrainee" style="padding:7px 10px; border-radius:9px; border:1.5px solid #cbd5e1; font-weight:700;"></select>
+            <button class="btn btn-soft btn-sm" id="btnLoadFullDemo">5대 코스 데모 로드</button>
+          </div>
+        </div>
+        <div class="grid-4" style="margin-bottom:12px;">
+          <div class="stat-box" style="border-top:4px solid var(--navy);"><div class="stat-k">종합 안전역량</div><div class="stat-v" id="dTotal">-</div><div class="stat-s" id="dTotalSub">데이터 없음</div></div>
+          <div class="stat-box" style="border-top:4px solid #2563eb;"><div class="stat-k">🚗 자동차 요소</div><div class="stat-v" id="dVeh" style="color:#1d4ed8;">-</div><div class="stat-s">제동·ABS·마찰 한계</div></div>
+          <div class="stat-box" style="border-top:4px solid #059669;"><div class="stat-k">🧠 사람 요소</div><div class="stat-v" id="dHum" style="color:#047857;">-</div><div class="stat-s">PIEV·균일제동·안정성</div></div>
+          <div class="stat-box" style="border-top:4px solid #d97706;"><div class="stat-k">🛣️ 도로환경 요소</div><div class="stat-v" id="dRoad" style="color:#b45309;">-</div><div class="stat-s">저마찰·비대칭·돌발</div></div>
+        </div>
+        <div class="grid-2">
+          <div class="chart-box">
+            <div class="chart-h"><span>3요소 안전역량 레이더 (초기 회차 vs 최종 회차)</span></div>
+            <canvas id="cDiagRadar" width="460" height="310"></canvas>
+          </div>
+          <div class="chart-box">
+            <div class="chart-h"><span>개인 실측 60km/h 정지거리 vs 권장 안전거리 (45m)</span></div>
+            <canvas id="cDiagStop" width="460" height="310"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:15px; font-weight:800; color:var(--navy); margin-bottom:10px;">맞춤형 사고예방 행동 처방</div>
+        <div id="dRxBox"></div>
+      </div>
+    </div>
+
+    <!-- ITAB 2: 회차별 센서 파형 -->
+    <div id="itab-wave" class="itab-panel">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+          <div style="font-size:15.5px; font-weight:900; color:var(--navy);">자동 분할 회차 및 정밀 센서 파형</div>
+          <div class="btn-row">
+            <select id="selWaveSession" style="padding:7px 10px; border-radius:9px; border:1.5px solid #cbd5e1; font-weight:700; max-width:340px;"></select>
+            <button class="btn btn-outline btn-sm" id="btnWaveCsv">원시 CSV</button>
+            <button class="btn btn-rose btn-sm" id="btnWaveDelete">삭제</button>
+          </div>
+        </div>
+        <div id="waveLapTable" class="table-wrap" style="margin-bottom:14px;"></div>
+        <div class="grid-2" style="margin-bottom:12px;">
+          <div class="chart-box"><div class="chart-h"><span>속도 프로파일 (km/h)</span></div><canvas id="cWaveSpd" width="500" height="220"></canvas></div>
+          <div class="chart-box"><div class="chart-h"><span>종감속도 (+G: 제동) &amp; 자동 감지 이벤트</span></div><canvas id="cWaveAx" width="500" height="220"></canvas></div>
+        </div>
+        <div class="grid-2">
+          <div class="chart-box"><div class="chart-h"><span>횡가속도 (G×50) &amp; 순수 수직 요레이트 (°/s)</span></div><canvas id="cWaveLatYaw" width="500" height="220"></canvas></div>
+          <div class="chart-box"><div class="chart-h"><span>G-G 마찰원 다이어그램</span></div><canvas id="cWaveGG" width="500" height="220"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITAB 3: 2.5D 실전 내비게이션 & 현장 GPS 보정 -->
+    <div id="itab-nav" class="itab-panel">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div>
+            <div style="font-size:15.5px; font-weight:900; color:var(--navy);">화성센터 2.5D 실전 내비게이션 &amp; 현장 GPS 좌표 보정</div>
+            <div style="font-size:12px; color:var(--muted);">실제 화성센터 출발선에서 [현위치로 전체 평행이동]하거나 지도 터치로 웨이포인트를 미세 조정할 수 있습니다.</div>
+          </div>
+          <select id="selNavCourse" style="padding:7px 10px; border-radius:9px; border:1.5px solid #cbd5e1; font-weight:700;"></select>
+        </div>
+
+        <div class="btn-row" style="margin-bottom:10px;">
+          <button class="btn btn-emerald btn-sm" id="btnNavSim">가상 주행 시연</button>
+          <button class="btn btn-primary btn-sm" id="btnNavAnchorGps">현위치 GPS로 전체 코스 평행이동</button>
+          <button class="btn btn-outline btn-sm" id="btnNavMode3d">2.5D / 2D 전환</button>
+          <button class="btn btn-outline btn-sm" id="btnNavSat">일반 / 위성 지도</button>
+          <button class="btn btn-outline btn-sm" id="btnNavTheme">네이버 / 카카오 테마</button>
+          <button class="btn btn-outline btn-sm" id="btnNavZoomIn">확대 +</button>
+          <button class="btn btn-outline btn-sm" id="btnNavZoomOut">축소 -</button>
+          <button class="btn btn-rose btn-sm" id="btnNavReset">기본 좌표 복원</button>
+        </div>
+
+        <div class="nav-tab-viewport">
+          <canvas id="tabNavCanvas"></canvas>
+          <div class="tbt-bar" id="tabTbtBar">
+            <div class="tbt-ico" id="tabTbtIco"></div>
+            <div style="min-width:0; flex:1;">
+              <div class="tbt-dist" id="tabTbtDist">0 m</div>
+              <div class="tbt-text" id="tabTbtText">코스를 선택하고 가상 주행 또는 현장 보정을 실행하세요</div>
+            </div>
+            <div style="text-align:right; flex-shrink:0;">
+              <div style="font-size:10px; opacity:0.85;">권장속도</div>
+              <div style="font-size:16px; font-weight:900;" id="tabTbtLimit">50</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="navPickHint" style="margin-top:8px; font-size:12px; color:var(--blue); font-weight:700; display:none;">
+          📍 지도 위 원하는 지점을 터치하면 선택한 웨이포인트 좌표가 즉시 등록됩니다.
+        </div>
+
+        <div class="table-wrap" style="margin-top:12px;">
+          <table>
+            <thead><tr><th>구간</th><th>유형</th><th>권장속도</th><th>좌표 (위도, 경도)</th><th>현장 보정</th></tr></thead>
+            <tbody id="navWpTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITAB 4: A4 피드백 페이퍼 & 데이터 백업 -->
+    <div id="itab-report" class="itab-panel">
+      <div class="card no-print">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+          <div class="btn-row">
+            <select id="selRepTrainee" style="padding:7px 10px; border-radius:9px; border:1.5px solid #cbd5e1; font-weight:700;"></select>
+            <button class="btn btn-navy btn-sm" id="btnPrintA4">A4 인쇄 / PDF 저장</button>
+            <button class="btn btn-emerald btn-sm" id="btnShareTxt">모바일 요약 공유</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-outline btn-sm" id="btnBackupJson">JSON 백업</button>
+            <label class="btn btn-outline btn-sm" style="cursor:pointer;">JSON 복원<input type="file" id="inRestoreJson" accept=".json" style="display:none;" /></label>
+            <button class="btn btn-rose btn-sm" id="btnWipeDb">전체 초기화</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="paper">
+        <div class="paper-head">
+          <div>
+            <div style="font-size:11.5px; font-weight:800; color:var(--blue);">한국교통안전공단 · 화성교통안전체험교육센터</div>
+            <h1 style="margin:3px 0 0; font-size:20px; font-weight:900; color:var(--navy);">3요소(자동차·사람·도로환경) 체험교육 개인별 피드백 리포트</h1>
+          </div>
+          <div style="text-align:right; font-size:11.5px; color:#475569;">
+            <div>발급일시: <strong id="repDate">-</strong></div>
+            <div>무인 자동 분석 시스템 v26</div>
+          </div>
+        </div>
+
+        <div class="grid-4" style="margin-bottom:12px;">
+          <div class="stat-box"><div class="stat-k">교육생</div><div style="font-size:15.5px; font-weight:900; color:var(--navy);" id="repWho">-</div><div class="stat-s" id="repRuns">-</div></div>
+          <div class="stat-box"><div class="stat-k">🚗 자동차</div><div class="stat-v" style="color:#1d4ed8;" id="repV">-</div></div>
+          <div class="stat-box"><div class="stat-k">🧠 사람</div><div class="stat-v" style="color:#047857;" id="repH">-</div></div>
+          <div class="stat-box"><div class="stat-k">🛣️ 도로환경</div><div class="stat-v" style="color:#b45309;" id="repR">-</div></div>
+        </div>
+
+        <div class="paper-sec">1. 3요소 안전역량 및 정지거리 분석</div>
+        <div class="paper-charts">
+          <div class="paper-chart-card"><div style="font-size:11.5px; font-weight:800; margin-bottom:4px;">3요소 종합 레이더</div><img id="repImgRadar" alt="레이더" /></div>
+          <div class="paper-chart-card"><div style="font-size:11.5px; font-weight:800; margin-bottom:4px;">실측 정지거리 vs 권장 안전거리(45m)</div><img id="repImgStop" alt="정지거리" /></div>
+        </div>
+
+        <div class="paper-sec">2. 코스별 자동 분할 계측 요약</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>코스</th><th>감지 회차</th><th>회차별 주요 수치</th><th>3요소 점수</th><th>종합</th></tr></thead>
+            <tbody id="repTbody"></tbody>
+          </table>
+        </div>
+
+        <div class="paper-sec">3. 실도로 교통사고 예방 행동 처방</div>
+        <div id="repRxBox"></div>
+
+        <div class="paper-sec">4. 담당 교수 종합 코칭</div>
+        <textarea id="repNote" rows="3" style="width:100%; padding:9px; border-radius:8px; border:1.5px solid #cbd5e1; font-size:12.5px;"></textarea>
+      </div>
+    </div>
+  </main>
+</section>
+
+<div id="toast"></div>
+
+<script>
+'use strict';
+
+/* ============================================================================
+ * 1. 교육생용 5대 코스 정의 + 화성센터 2.5D 내비게이션 7대 코스 좌표
+ * ============================================================================ */
+const TRAINEE_COURSES = [
+  { id: 'straight',  icon: '🛣️', name: '직선제동코스', sub: '40·60·80km/h 연속 주행 → 속도별 제동거리 자동 분석', weights: { v: 0.35, h: 0.45, r: 0.20 } },
+  { id: 'curve',     icon: '🔄', name: '곡선제동코스', sub: '30·40km/h 연속 선회 → 언더·오버스티어 · 45° 한계 자동 분석', weights: { v: 0.35, h: 0.30, r: 0.35 } },
+  { id: 'evasion',   icon: '⚡', name: '위험회피코스', sub: '단순·복합 좌/우 회피 연속 주행 → 기동 안정성 자동 분석', weights: { v: 0.30, h: 0.45, r: 0.25 } },
+  { id: 'piev',      icon: '🚨', name: 'PIEV 반응 측정', sub: '2.5D 실전 내비 안내 + 30km/h 이상 3회+ 자동 돌발 측정', weights: { v: 0.30, h: 0.45, r: 0.25 } },
+  { id: 'emergency', icon: '🛑', name: '긴급제동코스', sub: '비대칭 노면 Non-ABS → ABS 연속 주행 자동 비교 분석', weights: { v: 0.45, h: 0.30, r: 0.25 } }
+];
+const COURSE_MAP = Object.fromEntries(TRAINEE_COURSES.map(c => [c.id, c]));
+
+// TS 화성교통안전체험교육센터 기준 좌표 (경기도 화성시 송산면 삼존로 200)
+const CENTER_BASE = { lat: 37.23250, lon: 126.76850 };
+function offsetLatLon(dxM, dyM) {
+  const dLat = dyM / 111320;
+  const dLon = dxM / (111320 * Math.cos(CENTER_BASE.lat * Math.PI / 180));
+  return { lat: Number((CENTER_BASE.lat + dLat).toFixed(6)), lon: Number((CENTER_BASE.lon + dLon).toFixed(6)) };
+}
+
+const DEFAULT_NAV_COURSES = {
+  straight: {
+    name: '직선제동코스 (목표·속도별 제동)',
+    waypoints: [
+      { id: 'st1', name: '직선제동 출발선', dx: -130, dy: -45, speed: 60, zone: 'start', inst: '지정 속도로 가속하며 직선 주행하세요.' },
+      { id: 'st2', name: '정속 가속 구간', dx: -30, dy: -45, speed: 60, zone: 'accel', inst: '속도를 일정하게 유지하며 전방 제동선을 주시하세요.' },
+      { id: 'st3', name: '제동 기준선', dx: 40, dy: -45, speed: 60, zone: 'hazard', inst: '제동 기준선! 단 한 번의 균일한 급제동으로 정지하세요.' },
+      { id: 'st4', name: '정지 · 회차 지점', dx: 85, dy: -45, speed: 0, zone: 'brake', inst: '정지 확인 후 다음 바퀴를 위해 서행 복귀하세요.' }
+    ]
+  },
+  curve: {
+    name: '곡선제동코스 (미끄럼·카운터스티어)',
+    waypoints: [
+      { id: 'cv1', name: '곡선코스 출발선', dx: -140, dy: 65, speed: 35, zone: 'start', inst: '30~40km/h로 부드럽게 가속하여 곡선에 진입하세요.' },
+      { id: 'cv2', name: '저마찰 곡선 타일 진입', dx: -85, dy: 95, speed: 35, zone: 'hazard', inst: '곡선 타일 진입! 급제동 금지, 미끄러지면 자연감속·역핸들.' },
+      { id: 'cv3', name: '곡선 정점 (Apex)', dx: -40, dy: 75, speed: 30, zone: 'curve', inst: '출구 방향을 멀리 보며 부드럽게 조향하세요.' },
+      { id: 'cv4', name: '탈출 정지 구간', dx: -75, dy: 40, speed: 0, zone: 'brake', inst: '마른 노면 복귀 후 감속하여 다음 회차를 준비하세요.' }
+    ]
+  },
+  evasion: {
+    name: '위험회피코스 (단순·복합반응)',
+    waypoints: [
+      { id: 'ev1', name: '위험회피 출발선', dx: -120, dy: 20, speed: 40, zone: 'start', inst: '40~50km/h 지정 속도로 직선 가속하세요.' },
+      { id: 'ev2', name: '가속 구간', dx: -50, dy: 20, speed: 45, zone: 'accel', inst: '사전 감속 없이 일정 속도를 유지하며 진입하세요.' },
+      { id: 'ev3', name: '돌발 신호등 · 물분사', dx: 20, dy: 20, speed: 50, zone: 'hazard', inst: '적색 신호 점등 시 즉시 급제동 및 반대방향 1차로 회피!' },
+      { id: 'ev4', name: '회피 정지 구역', dx: 65, dy: 28, speed: 0, zone: 'brake', inst: '완전 정지까지 브레이크를 유지하세요.' },
+      { id: 'ev5', name: '서행 회차 복귀', dx: 95, dy: 5, speed: 20, zone: 'turn', inst: '30km/h 이하 서행으로 출발선으로 복귀하세요.' }
+    ]
+  },
+  piev: {
+    name: 'PIEV 반응 측정 (순환 · 돌발 3회+)',
+    waypoints: [
+      { id: 'pv1', name: 'PIEV 출발선', dx: -140, dy: 25, speed: 35, zone: 'start', inst: '출발 후 시속 30~50km/h로 직선 가속하세요.' },
+      { id: 'pv2', name: '제1 직선 돌발 구역 (#1)', dx: -10, dy: 25, speed: 40, zone: 'hazard', inst: '30km/h 이상 유지! 돌발 경보 시 즉시 급제동하세요.' },
+      { id: 'pv3', name: '동측 외곽 우회전', dx: 115, dy: 25, speed: 25, zone: 'curve', inst: '우회전 구간입니다. 25km/h 이하로 감속 선회하세요.' },
+      { id: 'pv4', name: '남측 직선 돌발 구역 (#2)', dx: 115, dy: -75, speed: 45, zone: 'hazard', inst: '남측 직선로 · 2번째 돌발 경보에 대비하세요.' },
+      { id: 'pv5', name: '남서측 우회전 코너', dx: -145, dy: -75, speed: 25, zone: 'curve', inst: '커브 진입 전 감속하고 차선을 유지하세요.' },
+      { id: 'pv6', name: '서측 복귀 돌발 구역 (#3)', dx: -145, dy: -15, speed: 40, zone: 'hazard', inst: '마지막 직선로 · 3번째 돌발 경보에 대비하세요.' },
+      { id: 'pv7', name: 'PIEV 도착선', dx: -140, dy: 20, speed: 0, zone: 'brake', inst: '도착선입니다. 정차 후 [주행 종료]를 누르세요.' }
+    ]
+  },
+  emergency: {
+    name: '긴급제동코스 (Split-μ · ABS 비교)',
+    waypoints: [
+      { id: 'em1', name: '긴급제동 출발선', dx: -130, dy: -10, speed: 50, zone: 'start', inst: '출발 후 50km/h까지 직선 가속하세요.' },
+      { id: 'em2', name: '50km/h 정속 구간', dx: -40, dy: -10, speed: 50, zone: 'accel', inst: '두 손으로 핸들을 단단히 잡고 50km/h를 유지하세요.' },
+      { id: 'em3', name: '비대칭 저마찰 제동선', dx: 25, dy: -10, speed: 50, zone: 'hazard', inst: '제동선 통과! 완전 정지까지 끝까지 강하게 밟으세요.' },
+      { id: 'em4', name: '완전 정지 · 관점지점', dx: 75, dy: -10, speed: 0, zone: 'brake', inst: '정지 완료 후 다음 회차(ABS 전환)를 진행하세요.' }
+    ]
+  },
+  courseA: {
+    name: '종합주행 A코스 (대형버스 · 1.4km)',
+    waypoints: [
+      { id: 'a1', name: 'A코스 출발선', dx: 85, dy: 35, speed: 20, zone: 'start', inst: '좌측 방향지시등 점등 후 출발하세요.' },
+      { id: 'a2', name: '회전교차로', dx: 75, dy: 85, speed: 20, zone: 'curve', inst: '진입 좌측·진출 우측 방향지시등 및 시선처리.' },
+      { id: 'a3', name: '승객 정류장', dx: -10, dy: 95, speed: 0, zone: 'brake', inst: '50m 전 감속, 연석 50cm 이내 정차 후 개폐.' },
+      { id: 'a4', name: '북서측 교차로', dx: -105, dy: 88, speed: 0, zone: 'brake', inst: '정지선 앞 일시정지 후 좌우 안전 확인.' },
+      { id: 'a5', name: '남서측 교차로', dx: -145, dy: -55, speed: 0, zone: 'brake', inst: '일시정지 후 좌측 방향지시등 회전.' },
+      { id: 'a6', name: '복합굴절 구간', dx: -115, dy: -35, speed: 20, zone: 'curve', inst: '내·외륜차 연석 접촉에 주의하세요.' },
+      { id: 'a7', name: '남동측 교차로', dx: 75, dy: -55, speed: 0, zone: 'brake', inst: '일시정지 후 좌회전 진입.' },
+      { id: 'a8', name: '복귀 교차로', dx: 75, dy: 5, speed: 20, zone: 'curve', inst: '우측 방향지시등 점등 후 복귀.' },
+      { id: 'a9', name: 'A코스 도착선', dx: 85, dy: 25, speed: 0, zone: 'brake', inst: '정차 후 주차브레이크 체결.' }
+    ]
+  },
+  highspeed: {
+    name: '고속주행훈련코스 (1.5km · 뱅크)',
+    waypoints: [
+      { id: 'hs1', name: '고속주행 출발', dx: -80, dy: -85, speed: 40, zone: 'start', inst: '안전거리 확보 후 출발하세요.' },
+      { id: 'hs2', name: 'R=50m 진입 곡선', dx: -155, dy: -40, speed: 40, zone: 'curve', inst: '진입 전 감속 후 차선 유지.' },
+      { id: 'hs3', name: '2.1m 협소 구간', dx: 20, dy: 105, speed: 50, zone: 'hazard', inst: '시선을 멀리 두고 차체 중앙을 유지하세요.' },
+      { id: 'hs4', name: 'R=122m 23.5° 뱅크커브', dx: 155, dy: 10, speed: 60, zone: 'curve', inst: '급조작을 피하고 일정 속도로 선회하세요.' },
+      { id: 'hs5', name: '고속주행 복귀선', dx: 40, dy: -85, speed: 30, zone: 'brake', inst: '서서히 감속하여 복귀하세요.' }
+    ]
+  }
+};
+
+/* ============================================================================
+ * 2. 저장소 (IndexedDB 대용량 + 경량 사용자/웨이포인트 localStorage)
+ * ============================================================================ */
+const DB_NAME = 'ts_hwaseong_v26_db';
+const STORE_NAME = 'sessions';
+const USER_KEY = 'ts_hwaseong_v26_user';
+const NAV_WP_KEY = 'ts_hwaseong_v26_nav_wp';
+let dbPromise = null;
+let allSessions = [];
+let navCourses = loadNavCourses();
+
+function openDB() {
+  if (dbPromise) return dbPromise;
+  dbPromise = new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, 1);
+    req.onupgradeneeded = (e) => {
+      const db = e.target.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+  return dbPromise;
+}
+async function dbPut(s) {
+  const db = await openDB();
+  return new Promise((res, rej) => { const tx = db.transaction(STORE_NAME, 'readwrite'); tx.objectStore(STORE_NAME).put(s); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+}
+async function dbDel(id) {
+  const db = await openDB();
+  return new Promise((res, rej) => { const tx = db.transaction(STORE_NAME, 'readwrite'); tx.objectStore(STORE_NAME).delete(id); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+}
+async function dbClear() {
+  const db = await openDB();
+  return new Promise((res, rej) => { const tx = db.transaction(STORE_NAME, 'readwrite'); tx.objectStore(STORE_NAME).clear(); tx.oncomplete = res; tx.onerror = () => rej(tx.error); });
+}
+async function dbAll() {
+  const db = await openDB();
+  return new Promise((res, rej) => {
+    const req = db.transaction(STORE_NAME, 'readonly').objectStore(STORE_NAME).getAll();
+    req.onsuccess = () => res((req.result || []).sort((a, b) => b.createdAt - a.createdAt));
+    req.onerror = () => rej(req.error);
+  });
+}
+
+function buildDefaultNavCourses() {
+  const out = {};
+  Object.entries(DEFAULT_NAV_COURSES).forEach(([k, c]) => {
+    out[k] = {
+      name: c.name,
+      waypoints: c.waypoints.map(w => {
+        const ll = offsetLatLon(w.dx, w.dy);
+        return { ...w, lat: ll.lat, lon: ll.lon, calibrated: false };
+      })
+    };
+  });
+  return out;
+}
+function loadNavCourses() {
+  const base = buildDefaultNavCourses();
+  try {
+    const saved = JSON.parse(localStorage.getItem(NAV_WP_KEY) || '{}');
+    Object.keys(base).forEach(k => {
+      if (saved[k] && Array.isArray(saved[k].waypoints) && saved[k].waypoints.length === base[k].waypoints.length) {
+        base[k].waypoints = base[k].waypoints.map((w, i) => ({ ...w, lat: saved[k].waypoints[i].lat, lon: saved[k].waypoints[i].lon, calibrated: !!saved[k].waypoints[i].calibrated }));
+      }
+    });
+  } catch (e) {}
+  return base;
+}
+function saveNavCourses() { localStorage.setItem(NAV_WP_KEY, JSON.stringify(navCourses)); }
+
+/* ============================================================================
+ * 3. 자동 거치 감지 + 3D 중력벡터 자동정렬 엔진 (거치 자세 수동 선택 불필요!)
+ * ============================================================================ */
+function vecNorm(v) { const m = Math.hypot(v[0], v[1], v[2]) || 1; return [v[0] / m, v[1] / m, v[2] / m]; }
+function vecDot(a, b) { return a[0] * b[0] + a[1] * b[1] + a[2] * b[2]; }
+function vecCross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
+
+function buildAutoVehicleBasis(gRaw) {
+  const gMag = Math.hypot(gRaw[0], gRaw[1], gRaw[2]);
+  const zUp = gMag > 2 ? vecNorm(gRaw) : [0, 1, 0];
+  // 자동 거치 감지: 화면이 위를 향한 수평 거치(|gz| 최대) vs 대시보드 세로/가로 거치
+  const isFlat = Math.abs(zUp[2]) > Math.max(Math.abs(zUp[0]), Math.abs(zUp[1])) * 1.15;
+  const fwdHint = isFlat ? [0, 1, 0] : [0, 0, -1];
+  const d = vecDot(fwdHint, zUp);
+  let proj = [fwdHint[0] - d * zUp[0], fwdHint[1] - d * zUp[1], fwdHint[2] - d * zUp[2]];
+  if (Math.hypot(proj[0], proj[1], proj[2]) < 0.15) {
+    const alt = [0, 1, 0], d2 = vecDot(alt, zUp);
+    proj = [alt[0] - d2 * zUp[0], alt[1] - d2 * zUp[1], alt[2] - d2 * zUp[2]];
+  }
+  const xFwd = vecNorm(proj);
+  const yRight = vecNorm(vecCross(xFwd, zUp));
+  return { xFwd, yRight, zUp, isFlat };
+}
+function project3D(accLin, gyroDps, basis) {
+  const fwd = vecDot(accLin, basis.xFwd);
+  const lat = vecDot(accLin, basis.yRight);
+  return {
+    brakeDecelG: -fwd / 9.80665,
+    latG: lat / 9.80665,
+    yawRateDps: vecDot(gyroDps, basis.zUp)
+  };
+}
+
+/* ============================================================================
+ * 4. 2.5D 헤딩업 실전 내비게이션 엔진 (v24 10대 버그 전면 수정 + 오프라인 SVG TBT)
+ * ============================================================================ */
+const tileCache = new Map();
+const navState = {
+  courseId: 'straight',
+  curWpIdx: 0,
+  curLat: null, curLon: null,
+  lastHeadingLat: null, lastHeadingLon: null,
+  curSpeedKmh: 0,
+  headingDeg: 90,
+  renderLat: null, renderLon: null, renderHeading: 90,
+  trail: [],
+  mode3d: true,
+  satellite: false,
+  kakaoTheme: false,
+  zoom: 17.6,
+  pickWpIdx: null,
+  simTimer: null,
+  rafId: null,
+  dirty: true
+};
+
+function haversineM(lat1, lon1, lat2, lon2) {
+  const R = 6371000, r = Math.PI / 180, dLat = (lat2 - lat1) * r, dLon = (lon2 - lon1) * r;
+  const a = Math.sin(dLat / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(dLon / 2) ** 2;
+  return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+function calcBearing(lat1, lon1, lat2, lon2) {
+  const r = Math.PI / 180, p1 = lat1 * r, p2 = lat2 * r, dl = (lon2 - lon1) * r;
+  const y = Math.sin(dl) * Math.cos(p2);
+  const x = Math.cos(p1) * Math.sin(p2) - Math.sin(p1) * Math.cos(p2) * Math.cos(dl);
+  return ((Math.atan2(y, x) * 180 / Math.PI) + 360) % 360;
+}
+function latLonToWorld(lat, lon, z) {
+  const sc = 256 * Math.pow(2, z);
+  const wx = ((lon + 180) / 360) * sc;
+  const s = Math.sin(lat * Math.PI / 180);
+  const wy = (0.5 - Math.log((1 + s) / (1 - s)) / (4 * Math.PI)) * sc;
+  return { wx, wy };
+}
+function worldToLatLon(wx, wy, z) {
+  const sc = 256 * Math.pow(2, z);
+  const lon = (wx / sc) * 360 - 180;
+  const n = Math.PI - (2 * Math.PI * wy) / sc;
+  const lat = (180 / Math.PI) * Math.atan(Math.sinh(n));
+  return { lat, lon };
+}
+function roundRectPath(ctx, x, y, w, h, r) {
+  const rr = Math.min(r, w / 2, h / 2);
+  ctx.beginPath();
+  ctx.moveTo(x + rr, y);
+  ctx.arcTo(x + w, y, x + w, y + h, rr);
+  ctx.arcTo(x + w, y + h, x, y + h, rr);
+  ctx.arcTo(x, y + h, x, y, rr);
+  ctx.arcTo(x, y, x + w, y, rr);
+  ctx.closePath();
+}
+function getMapTile(z, x, y, sat) {
+  const maxT = Math.pow(2, z);
+  if (y < 0 || y >= maxT) return null;
+  const wx = ((x % maxT) + maxT) % maxT;
+  const key = `${sat ? 'sat' : 'map'}_${z}_${wx}_${y}`;
+  let entry = tileCache.get(key);
+  if (!entry) {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    entry = { img, loaded: false };
+    img.onload = () => { entry.loaded = true; navState.dirty = true; drawActiveNavCanvas(); };
+    img.onerror = () => {};
+    img.src = sat
+      ? `https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/${z}/${y}/${wx}`
+      : `https://basemaps.cartocdn.com/rastertiles/voyager/${z}/${wx}/${y}@2x.png`;
+    tileCache.set(key, entry);
+    if (tileCache.size > 220) tileCache.delete(tileCache.keys().next().value);
+  }
+  return entry.loaded ? entry.img : null;
+}
+
+// 오프라인 완동작 인라인 SVG TBT 화살표 (v24 우회전 역전 버그 및 FontAwesome CDN 제거!)
+function getManeuverInfo(wps, idx) {
+  const wp = wps[idx];
+  const svg = (d) => `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+  if (!wp) return { svg: svg('<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>'), label: '직진' };
+  if (idx === wps.length - 1) return { svg: svg('<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>'), label: '목적지 도착' };
+  if (wp.zone === 'hazard') return { svg: svg('<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>'), label: '돌발·제동 주의' };
+  if (idx === 0) return { svg: svg('<polygon points="12 2 19 21 12 17 5 21 12 2"/>'), label: '코스 출발' };
+  const prev = wps[idx - 1], next = wps[idx + 1];
+  const b1 = calcBearing(prev.lat, prev.lon, wp.lat, wp.lon);
+  const b2 = calcBearing(wp.lat, wp.lon, next.lat, next.lon);
+  const diff = ((b2 - b1 + 540) % 360) - 180;
+  if (Math.abs(diff) < 25) return { svg: svg('<line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/>'), label: '직진 주행' };
+  if (Math.abs(diff) >= 135) return { svg: svg('<path d="M9 14L4 9l5-5"/><path d="M20 20v-7a4 4 0 0 0-4-4H4"/>'), label: '유턴 · 회차' };
+  if (diff > 0) return { svg: svg('<polyline points="14 5 20 11 14 17"/><path d="M4 20v-5a4 4 0 0 1 4-4h12"/>'), label: '우회전' };
+  return { svg: svg('<polyline points="10 5 4 11 10 17"/><path d="M20 20v-5a4 4 0 0 0-4-4H4"/>'), label: '좌회전' };
+}
+
+function resetNavToCourse(courseId) {
+  navState.courseId = navCourses[courseId] ? courseId : 'straight';
+  const wps = navCourses[navState.courseId].waypoints;
+  navState.curWpIdx = 0;
+  navState.curLat = wps[0].lat; navState.curLon = wps[0].lon;
+  navState.lastHeadingLat = wps[0].lat; navState.lastHeadingLon = wps[0].lon;
+  navState.renderLat = wps[0].lat; navState.renderLon = wps[0].lon;
+  navState.headingDeg = wps.length > 1 ? calcBearing(wps[0].lat, wps[0].lon, wps[1].lat, wps[1].lon) : 90;
+  navState.renderHeading = navState.headingDeg;
+  navState.trail = [];
+  navState.curSpeedKmh = 0;
+  syncTbtHud();
+  navState.dirty = true;
+}
+
+function updateNavPosition(lat, lon, speedKmh, heading) {
+  const c = navCourses[navState.courseId];
+  if (!c) return;
+  const wps = c.waypoints;
+
+  // 정지 시 heading=0 북쪽 스냅 방지 + 1.5m 누적 이동 시 방위각 갱신
+  if (typeof heading === 'number' && !isNaN(heading) && speedKmh >= 2.5) {
+    navState.headingDeg = heading;
+  } else if (navState.lastHeadingLat !== null) {
+    const moved = haversineM(navState.lastHeadingLat, navState.lastHeadingLon, lat, lon);
+    if (moved >= 1.5) {
+      navState.headingDeg = calcBearing(navState.lastHeadingLat, navState.lastHeadingLon, lat, lon);
+      navState.lastHeadingLat = lat; navState.lastHeadingLon = lon;
+    }
+  }
+  navState.curLat = lat; navState.curLon = lon;
+  navState.curSpeedKmh = speedKmh || 0;
+  if (navState.renderLat === null) { navState.renderLat = lat; navState.renderLon = lon; }
+  navState.trail.push({ lat, lon });
+  if (navState.trail.length > 400) navState.trail.shift();
+
+  const wp = wps[navState.curWpIdx];
+  const distM = haversineM(lat, lon, wp.lat, wp.lon);
+
+  // PIEV 지정 돌발 구역 진입 자동 발사 (v24 버그 수정: zone:'hazard' + Set 기반 다회차 발사!)
+  if (activeRun && activeRun.courseId === 'piev' && !activeRun.calibrating && !activeRun.activeAlert) {
+    if (wp.zone === 'hazard' && distM <= 18 && navState.curSpeedKmh >= 28 && !activeRun.triggeredZones.has(wp.id)) {
+      activeRun.triggeredZones.add(wp.id);
+      triggerPievAlert();
+    }
+  }
+
+  // 웨이포인트 통과 판정
+  if (distM <= 15 && navState.curWpIdx < wps.length - 1) {
+    navState.curWpIdx++;
+    const nWp = wps[navState.curWpIdx];
+    const man = getManeuverInfo(wps, navState.curWpIdx);
+    if (!activeRun || activeRun.courseId === 'piev') {
+      speakKo(`${nWp.name}, ${man.label}`);
+    }
+  }
+  syncTbtHud();
+}
+
+function syncTbtHud() {
+  const c = navCourses[navState.courseId];
+  if (!c) return;
+  const wps = c.waypoints;
+  const wp = wps[navState.curWpIdx] || wps[0];
+  const distM = navState.curLat !== null ? Math.round(haversineM(navState.curLat, navState.curLon, wp.lat, wp.lon)) : 0;
+  const man = getManeuverInfo(wps, navState.curWpIdx);
+
+  [['liveTbtBar', 'liveTbtIco', 'liveTbtDist', 'liveTbtText', 'liveTbtLimit'],
+   ['tabTbtBar', 'tabTbtIco', 'tabTbtDist', 'tabTbtText', 'tabTbtLimit']].forEach(([barId, icoId, distId, txtId, limId]) => {
+    const bar = document.getElementById(barId);
+    if (!bar) return;
+    bar.classList.toggle('kakao', navState.kakaoTheme);
+    document.getElementById(icoId).innerHTML = man.svg;
+    document.getElementById(distId).textContent = `${distM} m · ${man.label}`;
+    document.getElementById(txtId).textContent = `${wp.name} — ${wp.inst}`;
+    document.getElementById(limId).textContent = wp.speed > 0 ? String(wp.speed) : '정지';
+  });
+}
+
+function drawNaviOnCanvas(canvas) {
+  if (!canvas) return;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  if (rect.width < 20 || rect.height < 20) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = Math.round(rect.width), h = Math.round(rect.height);
+  if (canvas.width !== w * dpr || canvas.height !== h * dpr) {
+    canvas.width = w * dpr; canvas.height = h * dpr;
+  }
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+  const c = navCourses[navState.courseId];
+  if (!c) return;
+  const wps = c.waypoints;
+  const tLat = navState.curLat ?? wps[0].lat;
+  const tLon = navState.curLon ?? wps[0].lon;
+  if (navState.renderLat === null) { navState.renderLat = tLat; navState.renderLon = tLon; }
+  navState.renderLat += (tLat - navState.renderLat) * 0.2;
+  navState.renderLon += (tLon - navState.renderLon) * 0.2;
+  let dh = ((navState.headingDeg - navState.renderHeading + 540) % 360) - 180;
+  navState.renderHeading = (navState.renderHeading + dh * 0.2 + 360) % 360;
+
+  const z = navState.zoom;
+  const intZ = Math.round(z);
+  const zoomScale = Math.pow(2, z - intZ);
+  const cWorld = latLonToWorld(navState.renderLat, navState.renderLon, intZ);
+  const cx = w * 0.5, cy = h * (navState.mode3d ? 0.70 : 0.52);
+  const pitch = navState.mode3d ? 0.62 : 1.0;
+  const hRad = navState.mode3d ? (-navState.renderHeading * Math.PI / 180) : 0;
+
+  ctx.fillStyle = navState.satellite ? '#0f172a' : '#eef2f6';
+  ctx.fillRect(0, 0, w, h);
+
+  // 1) Tiles + Road + Active Route in transformed world space
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(zoomScale, zoomScale * pitch);
+  ctx.rotate(hRad);
+
+  const rad = Math.hypot(w, h / pitch) / zoomScale + 260;
+  const minTx = Math.floor((cWorld.wx - rad) / 256), maxTx = Math.floor((cWorld.wx + rad) / 256);
+  const minTy = Math.floor((cWorld.wy - rad) / 256), maxTy = Math.floor((cWorld.wy + rad) / 256);
+  for (let tx = minTx; tx <= maxTx; tx++) {
+    for (let ty = minTy; ty <= maxTy; ty++) {
+      const px = tx * 256 - cWorld.wx, py = ty * 256 - cWorld.wy;
+      const img = getMapTile(intZ, tx, ty, navState.satellite);
+      if (img) {
+        ctx.drawImage(img, px, py, 256, 256);
+      } else {
+        ctx.fillStyle = navState.satellite ? '#152238' : ((tx + ty) % 2 === 0 ? '#f1f5f9' : '#e8edf3');
+        ctx.fillRect(px, py, 256, 256);
+        ctx.strokeStyle = navState.satellite ? 'rgba(255,255,255,0.06)' : '#dbe3ec';
+        ctx.lineWidth = 1 / zoomScale;
+        ctx.strokeRect(px, py, 256, 256);
+      }
+    }
+  }
+
+  const wpW = wps.map(wp => {
+    const pw = latLonToWorld(wp.lat, wp.lon, intZ);
+    return { x: pw.wx - cWorld.wx, y: pw.wy - cWorld.wy };
+  });
+
+  // Base course road outline
+  if (wpW.length > 1) {
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); wpW.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+    ctx.strokeStyle = navState.satellite ? 'rgba(30,41,59,0.8)' : '#cbd5e1';
+    ctx.lineWidth = 22 / zoomScale; ctx.stroke();
+    ctx.strokeStyle = navState.satellite ? 'rgba(51,65,85,0.85)' : '#ffffff';
+    ctx.lineWidth = 16 / zoomScale; ctx.stroke();
+  }
+
+  // Driven trail
+  if (navState.trail.length > 1) {
+    ctx.beginPath();
+    navState.trail.forEach((pt, i) => {
+      const pw = latLonToWorld(pt.lat, pt.lon, intZ);
+      const x = pw.wx - cWorld.wx, y = pw.wy - cWorld.wy;
+      if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    });
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 10 / zoomScale; ctx.stroke();
+  }
+
+  // Active remaining route (starts cleanly from car (0,0) -> curWpIdx..end!)
+  if (wpW.length > 0) {
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    for (let i = navState.curWpIdx; i < wpW.length; i++) ctx.lineTo(wpW[i].x, wpW[i].y);
+    ctx.strokeStyle = navState.kakaoTheme ? '#1d4ed8' : '#0284c7';
+    ctx.lineWidth = 15 / zoomScale; ctx.stroke();
+    ctx.strokeStyle = navState.kakaoTheme ? '#3b82f6' : '#00c73c';
+    ctx.lineWidth = 10 / zoomScale; ctx.stroke();
+
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+    ctx.lineWidth = 2.6 / zoomScale;
+    ctx.setLineDash([7 / zoomScale, 16 / zoomScale]);
+    ctx.lineDashOffset = -((performance.now() / 42) % 23) / zoomScale;
+    ctx.stroke();
+    ctx.restore();
+  }
+  ctx.restore();
+
+  // 2) Sky horizon fog in 2.5D mode
+  if (navState.mode3d) {
+    const grd = ctx.createLinearGradient(0, 0, 0, 56);
+    grd.addColorStop(0, navState.satellite ? 'rgba(15,23,42,0.88)' : 'rgba(226,238,252,0.92)');
+    grd.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grd; ctx.fillRect(0, 0, w, 56);
+  }
+
+  // 3) Upright waypoint pins (Safari-safe roundRectPath)
+  const toScreen = (lat, lon) => {
+    const pw = latLonToWorld(lat, lon, intZ);
+    const dx = (pw.wx - cWorld.wx) * zoomScale, dy = (pw.wy - cWorld.wy) * zoomScale;
+    const rx = dx * Math.cos(hRad) - dy * Math.sin(hRad);
+    const ry = dx * Math.sin(hRad) + dy * Math.cos(hRad);
+    return { x: cx + rx, y: cy + ry * pitch };
+  };
+  wps.forEach((wp, i) => {
+    const p = toScreen(wp.lat, wp.lon);
+    if (p.x < -40 || p.x > w + 40 || p.y < -30 || p.y > h + 30) return;
+    const col = i === wps.length - 1 ? '#ef4444' : (wp.zone === 'hazard' ? '#f59e0b' : (i === navState.curWpIdx ? '#03c75a' : '#2563eb'));
+    ctx.beginPath(); ctx.arc(p.x, p.y, 9, 0, Math.PI * 2);
+    ctx.fillStyle = col; ctx.fill();
+    ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = '#fff'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(String(i + 1), p.x, p.y + 3.5);
+
+    if (i === navState.curWpIdx || wp.zone === 'hazard' || navState.pickWpIdx === i) {
+      ctx.font = 'bold 11px sans-serif';
+      const tw = ctx.measureText(wp.name).width + 14;
+      roundRectPath(ctx, p.x - tw / 2, p.y - 31, tw, 19, 6);
+      ctx.fillStyle = 'rgba(15,23,42,0.85)'; ctx.fill();
+      ctx.fillStyle = '#fff'; ctx.fillText(wp.name, p.x, p.y - 18);
+    }
+  });
+
+  // 4) Car Puck
+  const carAng = navState.mode3d ? 0 : (navState.renderHeading * Math.PI / 180);
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(carAng);
+  const pCol = navState.kakaoTheme ? '#2563eb' : '#03c75a';
+  const coneGrd = ctx.createRadialGradient(0, 0, 4, 0, -24, 34);
+  coneGrd.addColorStop(0, navState.kakaoTheme ? 'rgba(59,130,246,0.45)' : 'rgba(3,199,90,0.45)');
+  coneGrd.addColorStop(1, 'rgba(3,199,90,0)');
+  ctx.beginPath(); ctx.moveTo(0, 0); ctx.arc(0, 0, 34, -Math.PI * 0.72, -Math.PI * 0.28); ctx.closePath();
+  ctx.fillStyle = coneGrd; ctx.fill();
+
+  ctx.beginPath(); ctx.arc(0, 0, 14, 0, Math.PI * 2);
+  ctx.fillStyle = '#ffffff'; ctx.fill();
+  ctx.lineWidth = 3; ctx.strokeStyle = pCol; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, -9); ctx.lineTo(7, 6); ctx.lineTo(0, 3); ctx.lineTo(-7, 6); ctx.closePath();
+  ctx.fillStyle = pCol; ctx.fill();
+  ctx.restore();
+}
+
+function isNaviVisible() {
+  if (document.hidden) return false;
+  if (document.getElementById('view-live').classList.contains('active')) return true;
+  if (document.getElementById('view-instructor').classList.contains('active') &&
+      document.getElementById('itab-nav').classList.contains('active')) return true;
+  return false;
+}
+function drawActiveNavCanvas() {
+  if (document.getElementById('view-live').classList.contains('active')) {
+    drawNaviOnCanvas(document.getElementById('liveNaviCanvas'));
+  } else if (document.getElementById('itab-nav').classList.contains('active')) {
+    drawNaviOnCanvas(document.getElementById('tabNavCanvas'));
+  }
+}
+function updateNaviLoop() {
+  if (isNaviVisible()) {
+    if (!navState.rafId) {
+      const tick = () => {
+        if (!isNaviVisible()) { navState.rafId = null; return; }
+        drawActiveNavCanvas();
+        navState.rafId = requestAnimationFrame(tick);
+      };
+      navState.rafId = requestAnimationFrame(tick);
+    }
+  } else if (navState.rafId) {
+    cancelAnimationFrame(navState.rafId);
+    navState.rafId = null;
+  }
+}
+document.addEventListener('visibilitychange', updateNaviLoop);
+
+/* ============================================================================
+ * 5. 실시간 센서 수집 (IMU + GPS + ZUPT) & 무인 다회차 시뮬레이터
+ * ============================================================================ */
+let selectedCourseId = 'straight';
+let sensorGranted = false, hwAttached = false;
+let lpGrav = [0, 9.81, 0];
+let latestGps = { speedKmh: 0, lat: null, lon: null, heading: null, ts: 0 };
+let activeRun = null, wakeLock = null, audioCtx = null;
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(showToast._id);
+  showToast._id = setTimeout(() => t.classList.remove('show'), 2600);
+}
+function playBeep(freq = 1040, ms = 380) {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = 'sawtooth'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.24, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + ms / 1000);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + ms / 1000);
+  } catch (e) {}
+}
+function speakKo(txt) {
+  try {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(txt);
+    u.lang = 'ko-KR'; u.rate = 1.12;
+    window.speechSynthesis.speak(u);
+  } catch (e) {}
+}
+
+async function requestSensorAccess() {
+  try {
+    if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+      const r = await DeviceMotionEvent.requestPermission();
+      if (r !== 'granted') throw new Error('모션 센서 권한 거부');
+    }
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+      try { await DeviceOrientationEvent.requestPermission(); } catch (e) {}
+    }
+    sensorGranted = true;
+    attachHardwareSensors();
+  } catch (e) {
+    showToast('센서 권한 안내: ' + e.message);
+  }
+}
+
+function attachHardwareSensors() {
+  if (hwAttached) return;
+  hwAttached = true;
+  window.addEventListener('devicemotion', (e) => {
+    const ag = e.accelerationIncludingGravity, al = e.acceleration, rr = e.rotationRate;
+    const rawG = [ag && ag.x || 0, ag && ag.y || 0, ag && ag.z || 0];
+    lpGrav = [0.85 * lpGrav[0] + 0.15 * rawG[0], 0.85 * lpGrav[1] + 0.15 * rawG[1], 0.85 * lpGrav[2] + 0.15 * rawG[2]];
+    const accLin = (al && (al.x !== null || al.y !== null))
+      ? [al.x || 0, al.y || 0, al.z || 0]
+      : [rawG[0] - lpGrav[0], rawG[1] - lpGrav[1], rawG[2] - lpGrav[2]];
+    const gyro = [rr && rr.beta || 0, rr && rr.gamma || 0, rr && rr.alpha || 0];
+
+    if (activeRun && !activeRun.isSim) {
+      processFrame({
+        tMs: performance.now() - activeRun.startPerfMs,
+        rawG, accLin, gyro,
+        gpsSpeedKmh: latestGps.speedKmh,
+        lat: latestGps.lat, lon: latestGps.lon, heading: latestGps.heading
+      });
+    }
+  });
+
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition((pos) => {
+      const c = pos.coords;
+      const now = performance.now();
+      let spd = (c.speed !== null && !isNaN(c.speed) && c.speed >= 0) ? c.speed * 3.6 : null;
+      if (latestGps.lat !== null && c.accuracy < 35) {
+        const dm = haversineM(latestGps.lat, latestGps.lon, c.latitude, c.longitude);
+        const dt = (now - latestGps.ts) / 1000;
+        if (spd === null && dt > 0.25 && dm < 120) spd = (dm / dt) * 3.6;
+      }
+      latestGps = { speedKmh: spd ?? latestGps.speedKmh, lat: c.latitude, lon: c.longitude, heading: c.heading, ts: now };
+    }, () => {}, { enableHighAccuracy: true, maximumAge: 0, timeout: 15000 });
+  }
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+  updateNaviLoop();
+}
+
+function startSoloRun(isSim) {
+  const num = (document.getElementById('inNumber').value || '01').trim();
+  const name = (document.getElementById('inName').value || '교육생').trim();
+  localStorage.setItem(USER_KEY, JSON.stringify({ num, name }));
+
+  if (!isSim && !sensorGranted) requestSensorAccess();
+  if ('wakeLock' in navigator) navigator.wakeLock.request('screen').then(l => wakeLock = l).catch(() => {});
+
+  const course = COURSE_MAP[selectedCourseId];
+  resetNavToCourse(selectedCourseId);
+
+  activeRun = {
+    id: 'R' + Date.now() + '_' + Math.random().toString(36).slice(2, 5),
+    createdAt: Date.now(),
+    isSim,
+    traineeNum: num,
+    traineeName: name,
+    courseId: course.id,
+    courseName: course.name,
+    startPerfMs: performance.now(),
+    calibrating: true,
+    calBuf: [],
+    basis: buildAutoVehicleBasis([0, 9.81, 0]),
+    emaAx: 0, emaAy: 0, emaWz: 0,
+    prevTMs: 0, prevAx: 0, prevAy: 0,
+    fusedSpeedKmh: 0, distM: 0, zuptMs: 0,
+    samples: [],
+    alerts: [],
+    activeAlert: null,
+    triggeredZones: new Set(),
+    nextRandomPievMs: null,
+    brakeConsecMs: 0,
+    // 실시간 자동 감지 회차 카운터
+    liveEventActive: false,
+    liveEventCount: 0,
+    simTimer: null, uiTimer: null
+  };
+
+  // HUD 초기 상태
+  const liveEl = document.getElementById('view-live');
+  liveEl.classList.toggle('map-full', course.id === 'piev');
+  document.getElementById('btnToggleMapFull').textContent = course.id === 'piev' ? '계기판 크게' : '지도 크게';
+  document.getElementById('liveTitle').textContent = course.name;
+  document.getElementById('liveLapPill').textContent = '자동 감지: 0회';
+  setLiveBar('', isSim ? '2초 자동 3D 정렬 · 다회차 시뮬레이션 준비...' : '2초 정차 유지 — 자동 3D 센서 정렬 중...');
+
+  showScreen('view-live');
+  activeRun.uiTimer = setInterval(renderLiveInstruments, 66);
+  if (isSim) runMultiLapSimulator(activeRun);
+}
+
+function setLiveBar(cls, txt) {
+  const b = document.getElementById('liveCalBar');
+  b.className = 'live-cal-bar ' + cls;
+  b.textContent = txt;
+}
+
+function triggerPievAlert() {
+  if (!activeRun || activeRun.activeAlert) return;
+  const tMs = activeRun.isSim ? activeRun.prevTMs : (performance.now() - activeRun.startPerfMs);
+  const recent = activeRun.samples.slice(-10);
+  const preLift = recent.length > 4 && (recent.reduce((s, x) => s + x.ax, 0) / recent.length) > 0.14;
+  const ev = {
+    alertMs: tMs, alertSpeedKmh: activeRun.fusedSpeedKmh, alertDistM: activeRun.distM,
+    brakeStartMs: null, brakeStartDistM: null, stopMs: null, stopDistM: null,
+    peakDecelG: 0, preLift
+  };
+  activeRun.alerts.push(ev);
+  activeRun.activeAlert = ev;
+  activeRun.brakeConsecMs = 0;
+
+  playBeep(1080, 420);
+  speakKo('돌발 급제동');
+  const fl = document.getElementById('hazardFlash');
+  fl.classList.add('show');
+  setLiveBar('hazard', `돌발 #${activeRun.alerts.length} 발생! 즉시 급제동!`);
+  setTimeout(() => fl.classList.remove('show'), 900);
+}
+
+function processFrame(f) {
+  const r = activeRun;
+  if (!r) return;
+
+  if (r.calibrating) {
+    r.calBuf.push(f.rawG);
+    if (f.tMs >= 1600 && r.calBuf.length >= 5) {
+      const avg = [0, 0, 0];
+      r.calBuf.forEach(g => { avg[0] += g[0]; avg[1] += g[1]; avg[2] += g[2]; });
+      avg[0] /= r.calBuf.length; avg[1] /= r.calBuf.length; avg[2] /= r.calBuf.length;
+      r.basis = buildAutoVehicleBasis(avg);
+      r.calibrating = false;
+      r.prevTMs = f.tMs;
+      setLiveBar('ready', r.courseId === 'piev' ? '내비 안내 따라 30km/h 이상 주행 (자동 돌발 대기)' : '정렬 완료 · 평소대로 연속 주행하세요 (회차 자동 감지)');
+      if (r.courseId === 'piev') r.nextRandomPievMs = f.tMs + 6000 + Math.random() * 3000;
+    }
+    return;
+  }
+
+  const dt = Math.max(0.005, Math.min(0.2, (f.tMs - r.prevTMs) / 1000));
+  r.prevTMs = f.tMs;
+
+  const p = project3D(f.accLin, f.gyro, r.basis);
+  r.emaAx = 0.62 * r.emaAx + 0.38 * p.brakeDecelG;
+  r.emaAy = 0.62 * r.emaAy + 0.38 * p.latG;
+  r.emaWz = 0.60 * r.emaWz + 0.40 * p.yawRateDps;
+  const jx = (r.emaAx - r.prevAx) / dt, jy = (r.emaAy - r.prevAy) / dt;
+  r.prevAx = r.emaAx; r.prevAy = r.emaAy;
+
+  // ZUPT 정지 보정 + 속도 퓨전
+  const imuMag = Math.hypot(r.emaAx, r.emaAy);
+  if (imuMag < 0.055 && Math.abs(r.emaWz) < 4 && (f.gpsSpeedKmh < 3.5)) r.zuptMs += dt * 1000;
+  else r.zuptMs = 0;
+
+  const vImu = Math.max(0, r.fusedSpeedKmh - r.emaAx * 9.80665 * dt * 3.6);
+  r.fusedSpeedKmh = (f.gpsSpeedKmh !== null && f.gpsSpeedKmh !== undefined) ? (0.80 * vImu + 0.20 * f.gpsSpeedKmh) : vImu;
+  if (r.zuptMs >= 850 || (r.fusedSpeedKmh < 1.2 && r.emaAx > -0.04)) r.fusedSpeedKmh = 0;
+  r.distM += (r.fusedSpeedKmh / 3.6) * dt;
+
+  // 내비 위치 업데이트
+  if (f.lat !== null && f.lat !== undefined && f.lon !== null && f.lon !== undefined) {
+    updateNavPosition(f.lat, f.lon, r.fusedSpeedKmh, f.heading);
+  }
+
+  // PIEV 폴백 랜덤 돌발 (GPS 미수신 실내/시연 시에도 30km/h 이상이면 자동 발사)
+  if (r.courseId === 'piev' && !r.activeAlert && r.nextRandomPievMs && f.tMs >= r.nextRandomPievMs && r.fusedSpeedKmh >= 28) {
+    triggerPievAlert();
+    r.nextRandomPievMs = f.tMs + 6500 + Math.random() * 3500;
+  }
+
+  // PIEV 활성 돌발 추적
+  if (r.activeAlert) {
+    const ev = r.activeAlert;
+    if (ev.brakeStartMs === null && r.fusedSpeedKmh >= 6) {
+      if (r.emaAx >= 0.25) {
+        r.brakeConsecMs += dt * 1000;
+        if (r.brakeConsecMs >= 50) {
+          ev.brakeStartMs = f.tMs - r.brakeConsecMs;
+          ev.brakeStartDistM = r.distM;
+          setLiveBar('ready', `반응 ${((ev.brakeStartMs - ev.alertMs) / 1000).toFixed(2)}초 감지 · 정지 후 계속 주행`);
+        }
+      } else r.brakeConsecMs = 0;
+    }
+    if (ev.brakeStartMs !== null) {
+      if (r.emaAx > ev.peakDecelG) ev.peakDecelG = r.emaAx;
+      if (r.fusedSpeedKmh <= 2.0 || (f.tMs - ev.brakeStartMs) > 5500) {
+        ev.stopMs = f.tMs; ev.stopDistM = r.distM;
+        r.activeAlert = null;
+        r.liveEventCount = r.alerts.filter(a => a.brakeStartMs !== null).length;
+        document.getElementById('liveLapPill').textContent = `자동 감지: ${r.liveEventCount}회`;
+      }
+    }
+  } else {
+    // 일반 4개 코스 실시간 회차 카운트 프리뷰
+    const trigger = r.courseId === 'curve'
+      ? (Math.abs(r.emaAy) >= 0.20 || Math.abs(r.emaWz) >= 18) && r.fusedSpeedKmh >= 18
+      : (r.emaAx >= 0.30 && r.fusedSpeedKmh >= 18);
+    if (trigger && !r.liveEventActive) {
+      r.liveEventActive = true;
+    } else if (!trigger && r.liveEventActive && (r.fusedSpeedKmh < 8 || (r.courseId === 'curve' && Math.abs(r.emaAy) < 0.08 && Math.abs(r.emaWz) < 8))) {
+      r.liveEventActive = false;
+      r.liveEventCount++;
+      document.getElementById('liveLapPill').textContent = `자동 감지: ${r.liveEventCount}회`;
+    }
+  }
+
+  r.samples.push({
+    t: Math.round(f.tMs),
+    v: +r.fusedSpeedKmh.toFixed(2),
+    ax: +r.emaAx.toFixed(3),
+    ay: +r.emaAy.toFixed(3),
+    wz: +r.emaWz.toFixed(2),
+    jx: +jx.toFixed(2),
+    jy: +jy.toFixed(2),
+    d: +r.distM.toFixed(2)
+  });
+}
+
+function renderLiveInstruments() {
+  const r = activeRun;
+  if (!r) return;
+  document.getElementById('liveSpeed').textContent = Math.round(r.fusedSpeedKmh);
+  document.getElementById('liveAx').textContent = `${r.emaAx.toFixed(2)}G`;
+  document.getElementById('liveAy').textContent = `${r.emaAy.toFixed(2)}G`;
+  drawLiveFrictionGG(r.emaAy, r.emaAx);
+}
+
+function drawLiveFrictionGG(latG, decelG) {
+  const c = document.getElementById('liveGGCanvas');
+  const ctx = c.getContext('2d');
+  const w = c.width, h = c.height, cx = w / 2, cy = h / 2, R = w * 0.42;
+  ctx.clearRect(0, 0, w, h);
+
+  // 저마찰(0.4G) / 건조(0.8G) / 한계(1.0G) 마찰원
+  [0.4, 0.8, 1.0].forEach((g, i) => {
+    ctx.beginPath(); ctx.arc(cx, cy, R * g, 0, Math.PI * 2);
+    ctx.strokeStyle = i === 0 ? 'rgba(251,191,36,0.55)' : (i === 1 ? 'rgba(56,189,248,0.45)' : 'rgba(148,163,184,0.28)');
+    ctx.lineWidth = 1.4; ctx.stroke();
+  });
+  ctx.strokeStyle = 'rgba(148,163,184,0.25)';
+  ctx.beginPath(); ctx.moveTo(cx, 10); ctx.lineTo(cx, h - 10); ctx.moveTo(10, cy); ctx.lineTo(w - 10, cy); ctx.stroke();
+
+  if (activeRun && activeRun.samples.length > 2) {
+    const tail = activeRun.samples.slice(-28);
+    ctx.beginPath();
+    tail.forEach((s, i) => {
+      const px = cx + Math.max(-1, Math.min(1, s.ay)) * R;
+      const py = cy - Math.max(-1, Math.min(1, s.ax)) * R;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    });
+    ctx.strokeStyle = 'rgba(56,189,248,0.65)'; ctx.lineWidth = 2.2; ctx.stroke();
+  }
+  const px = cx + Math.max(-1, Math.min(1, latG)) * R;
+  const py = cy - Math.max(-1, Math.min(1, decelG)) * R;
+  const mag = Math.hypot(latG, decelG);
+  ctx.beginPath(); ctx.arc(px, py, 7, 0, Math.PI * 2);
+  ctx.fillStyle = mag > 0.72 ? '#f87171' : (mag > 0.42 ? '#fbbf24' : '#34d399');
+  ctx.fill(); ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
+}
+
+/* 다회차 실전 시뮬레이터 (선택한 코스를 2~3바퀴 연속 주행 + 2.5D 내비 실제 이동!) */
+function runMultiLapSimulator(run) {
+  const wps = navCourses[run.courseId].waypoints;
+  let simMs = 0, v = 0, segIdx = 0, segDistDone = 0;
+  let lap = 0, lapPhaseT = 0;
+  const dtMs = 40, dt = 0.04, tilt = 0.36;
+  const lapPlan = {
+    straight: [40, 60, 80],
+    curve: [30, 41, 39],
+    evasion: [{ v: 40, dir: 0 }, { v: 48, dir: -1 }, { v: 50, dir: 1 }],
+    emergency: [{ v: 50, abs: false }, { v: 50, abs: true }],
+    piev: [40, 44, 42]
+  }[run.courseId];
+
+  run.simTimer = setInterval(() => {
+    if (!activeRun || activeRun.id !== run.id) { clearInterval(run.simTimer); return; }
+    simMs += dtMs;
+    let decelG = 0, latG = 0, wz = 0;
+
+    if (simMs < 1750) {
+      v = 0;
+    } else {
+      lapPhaseT += dt;
+      if (run.courseId === 'straight') {
+        const target = lapPlan[lap];
+        if (lapPhaseT < 2.8) {
+          decelG = -Math.min(0.45, (target - v) * 0.06);
+          v = Math.min(target, v - decelG * 9.81 * dt * 3.6);
+        } else if (v > 0.4) {
+          decelG = (lap === 0 && lapPhaseT > 3.3 && lapPhaseT < 3.65) ? 0.22 : (0.68 + lap * 0.04);
+          v = Math.max(0, v - decelG * 9.81 * dt * 3.6);
+        } else if (lapPhaseT > 6.2) {
+          lap++; lapPhaseT = 0;
+          if (lap >= lapPlan.length) { finishSoloRun(); return; }
+        }
+      } else if (run.courseId === 'curve') {
+        const target = lapPlan[lap];
+        if (lapPhaseT < 2.2) {
+          decelG = -0.35; v = Math.min(target, v + 0.35 * 9.81 * dt * 3.6);
+        } else if (lapPhaseT < 5.2) {
+          const p = (lapPhaseT - 2.2) / 3.0;
+          if (lap === 0) { latG = 0.25 * Math.sin(p * Math.PI); wz = 18 * Math.sin(p * Math.PI); }
+          else if (lap === 1) { latG = 0.30 * Math.sin(p * Math.PI); wz = 56 * Math.sin(p * Math.PI * 1.3); decelG = (p > 0.35 && p < 0.55) ? 0.38 : 0.05; }
+          else { latG = 0.34 * Math.sin(p * Math.PI); wz = 27 * Math.sin(p * Math.PI); decelG = 0.06; }
+          v = Math.max(12, v - decelG * 9.81 * dt * 3.6);
+        } else if (lapPhaseT < 6.4) {
+          decelG = 0.28; v = Math.max(0, v - decelG * 9.81 * dt * 3.6);
+        } else {
+          lap++; lapPhaseT = 0;
+          if (lap >= lapPlan.length) { finishSoloRun(); return; }
+        }
+      } else if (run.courseId === 'evasion') {
+        const plan = lapPlan[lap];
+        if (lapPhaseT < 2.3) {
+          decelG = -0.36; v = Math.min(plan.v, v + 0.36 * 9.81 * dt * 3.6);
+        } else if (v > 0.4) {
+          decelG = 0.68 + lap * 0.05;
+          v = Math.max(0, v - decelG * 9.81 * dt * 3.6);
+          if (plan.dir !== 0) {
+            const p = Math.min(1, (lapPhaseT - 2.3) / 1.4);
+            latG = plan.dir * (lap === 1 ? 0.52 : 0.40) * Math.sin(p * Math.PI);
+            wz = plan.dir * 24 * Math.sin(p * Math.PI);
+          }
+        } else if (lapPhaseT > 5.4) {
+          lap++; lapPhaseT = 0;
+          if (lap >= lapPlan.length) { finishSoloRun(); return; }
+        }
+      } else if (run.courseId === 'emergency') {
+        const plan = lapPlan[lap];
+        if (lapPhaseT < 2.5) {
+          decelG = -0.38; v = Math.min(plan.v, v + 0.38 * 9.81 * dt * 3.6);
+        } else if (v > 0.4) {
+          decelG = plan.abs ? ((lapPhaseT > 3.1 && lapPhaseT < 3.45) ? 0.24 : 0.75) : 0.48;
+          v = Math.max(0, v - decelG * 9.81 * dt * 3.6);
+          wz = plan.abs ? 6 * Math.sin((lapPhaseT - 2.5) * 3) : 44 * Math.sin((lapPhaseT - 2.5) * 2.2);
+          latG = plan.abs ? 0.06 : 0.30;
+        } else if (lapPhaseT > 6.2) {
+          lap++; lapPhaseT = 0;
+          if (lap >= lapPlan.length) { finishSoloRun(); return; }
+        }
+      } else if (run.courseId === 'piev') {
+        const target = lapPlan[Math.min(lap, lapPlan.length - 1)];
+        if (!run.activeAlert) {
+          if (v < target) { decelG = -0.34; v = Math.min(target, v + 0.34 * 9.81 * dt * 3.6); }
+          if (lapPhaseT > 3.2 && lap < 3) {
+            triggerPievAlert();
+            run._simReact = simMs + (940 - lap * 150);
+          }
+        } else {
+          if (simMs >= run._simReact && v > 0.4) {
+            decelG = 0.68 + lap * 0.05;
+            v = Math.max(0, v - decelG * 9.81 * dt * 3.6);
+          }
+          if (v <= 0.5) { lap++; lapPhaseT = 0; }
+        }
+        if (lap >= 3 && !run.activeAlert && lapPhaseT > 1.2) { finishSoloRun(); return; }
+      }
+    }
+
+    // 2.5D 내비 경로를 실제 속도(m/s)에 비례해 이동
+    const p0 = wps[segIdx], p1 = wps[(segIdx + 1) % wps.length];
+    const segLen = Math.max(5, haversineM(p0.lat, p0.lon, p1.lat, p1.lon));
+    segDistDone += Math.max(0, v / 3.6) * dt;
+    while (segDistDone >= segLen) {
+      segDistDone -= segLen;
+      segIdx = (segIdx + 1) % Math.max(1, wps.length - 1);
+    }
+    const q0 = wps[segIdx], q1 = wps[Math.min(wps.length - 1, segIdx + 1)];
+    const frac = Math.min(1, segDistDone / Math.max(5, haversineM(q0.lat, q0.lon, q1.lat, q1.lon)));
+    const simLat = q0.lat + (q1.lat - q0.lat) * frac;
+    const simLon = q0.lon + (q1.lon - q0.lon) * frac;
+    const simHead = calcBearing(q0.lat, q0.lon, q1.lat, q1.lon);
+
+    const gSim = [0, 9.80665 * Math.cos(tilt), 9.80665 * Math.sin(tilt)];
+    const fwdMs2 = -decelG * 9.80665, latMs2 = latG * 9.80665;
+    processFrame({
+      tMs: simMs,
+      rawG: gSim,
+      accLin: [latMs2, fwdMs2 * Math.sin(tilt), -fwdMs2 * Math.cos(tilt)],
+      gyro: [0, wz * Math.cos(tilt), wz * Math.sin(tilt)],
+      gpsSpeedKmh: v, lat: simLat, lon: simLon, heading: simHead
+    });
+  }, dtMs);
+}
+
+/* ============================================================================
+ * 6. 무인 다회차 자동 이벤트 분할기 & 3요소 자동 분석 엔진
+ * ============================================================================ */
+function clamp(x, lo = 0, hi = 100) { return Math.max(lo, Math.min(hi, x)); }
+
+function autoSegmentCourseEvents(run) {
+  const s = run.samples;
+  const events = [];
+
+  if (run.courseId === 'piev') {
+    (run.alerts || []).forEach((a, idx) => {
+      if (a.brakeStartMs === null) return;
+      const pievS = +((a.brakeStartMs - a.alertMs) / 1000).toFixed(2);
+      const pievDistM = +Math.max(0, a.brakeStartDistM - a.alertDistM).toFixed(1);
+      const stopD = a.stopDistM !== null ? a.stopDistM : (s[s.length - 1]?.d || a.brakeStartDistM);
+      const brakeDistM = +Math.max(1, stopD - a.brakeStartDistM).toFixed(1);
+      events.push({
+        lap: idx + 1, type: '돌발 반응',
+        entrySpeedKmh: +a.alertSpeedKmh.toFixed(1),
+        pievS, pievDistM, brakeDistM,
+        peakDecelG: +a.peakDecelG.toFixed(2),
+        preLift: !!a.preLift,
+        tStartS: +(a.alertMs / 1000).toFixed(1)
+      });
+    });
+    return events;
+  }
+
+  if (run.courseId === 'curve') {
+    // 횡가속도 >= 0.16G 또는 수직 요레이트 >= 14°/s 인 선회 구간 자동 분할
+    let st = -1, lastAct = -1;
+    const pushSeg = (i0, i1) => {
+      const seg = s.slice(i0, i1 + 1);
+      if (seg.length < 15) return;
+      const entryV = Math.max(...seg.slice(0, 12).map(x => x.v), seg[0].v);
+      if (entryV < 15) return;
+      const peakLat = Math.max(...seg.map(x => Math.abs(x.ay)));
+      const peakYaw = Math.max(...seg.map(x => Math.abs(x.wz)));
+      let maxSpin = 0, accYaw = 0;
+      for (let k = 1; k < seg.length; k++) {
+        const dt = (seg[k].t - seg[k - 1].t) / 1000;
+        if (Math.abs(seg[k].wz) > 4) { accYaw += seg[k].wz * dt; if (Math.abs(accYaw) > maxSpin) maxSpin = Math.abs(accYaw); }
+        else accYaw *= 0.85;
+      }
+      const brakeInCurve = seg.some(x => x.ax > 0.30);
+      let diag = '정상 선회';
+      if (maxSpin >= 45 || (peakYaw >= 42 && (brakeInCurve || peakYaw / Math.max(10, peakLat * 100) >= 1.25))) {
+        diag = maxSpin >= 45 ? '오버스티어 (45° 초과)' : '오버스티어 경향';
+      } else if (entryV >= 35 && peakLat < 0.25 && peakYaw < 20) {
+        diag = '언더스티어 경향';
+      } else if (peakYaw >= 25) diag = '경계 슬립 (제어 가능)';
+
+      events.push({
+        lap: events.length + 1, type: diag,
+        entrySpeedKmh: +entryV.toFixed(1),
+        peakLatG: +peakLat.toFixed(2),
+        peakYawDps: +peakYaw.toFixed(1),
+        cumYawDeg: +maxSpin.toFixed(1),
+        brakeInCurve,
+        tStartS: +(seg[0].t / 1000).toFixed(1)
+      });
+    };
+
+    for (let i = 0; i < s.length; i++) {
+      const act = (Math.abs(s[i].ay) >= 0.16 || Math.abs(s[i].wz) >= 14) && s[i].v >= 12;
+      if (act) { if (st === -1) st = i; lastAct = i; }
+      else if (st !== -1 && (s[i].t - s[lastAct].t) > 900) { pushSeg(st, lastAct); st = -1; lastAct = -1; }
+    }
+    if (st !== -1) pushSeg(st, lastAct);
+    return events;
+  }
+
+  // straight / emergency / evasion: 제동(>=0.25G) 또는 회피(>=0.22G) 블록 자동 분할 (0.85초 이내 킥백 해제 병합!)
+  let st = -1, lastAct = -1;
+  const pushBrakeEv = (i0, i1) => {
+    const seg = s.slice(i0, i1 + 1);
+    if (seg.length < 10) return;
+    const entryV = Math.max(...seg.slice(0, 6).map(x => x.v), seg[0].v);
+    if (entryV < 18) return;
+    const peakDecel = Math.max(...seg.map(x => x.ax));
+    const meanDecel = seg.reduce((a, x) => a + Math.max(0, x.ax), 0) / seg.length;
+    const varG = seg.reduce((a, x) => a + (Math.max(0, x.ax) - meanDecel) ** 2, 0) / seg.length;
+    const cv = meanDecel > 0.05 ? Math.sqrt(varG) / meanDecel : 0;
+    let distM = Math.max(0, seg[seg.length - 1].d - seg[0].d);
+    if (distM < 1.0 && entryV > 12) distM = ((entryV / 3.6) ** 2) / (2 * Math.max(0.3, meanDecel) * 9.80665);
+
+    // 킥백 해제 / 끊어밟기 탐지
+    let drops = 0, inDrop = false;
+    for (let k = 2; k < seg.length - 2; k++) {
+      if (seg[k].ax < peakDecel * 0.45 && seg[k].v > 5) { if (!inDrop) { drops++; inDrop = true; } }
+      else if (seg[k].ax > peakDecel * 0.65) inDrop = false;
+    }
+
+    // 횡회피 & 누적 요각
+    let maxAbsLat = 0, signedLat = 0, maxSpin = 0, accYaw = 0;
+    for (let k = 0; k < seg.length; k++) {
+      if (Math.abs(seg[k].ay) > maxAbsLat) { maxAbsLat = Math.abs(seg[k].ay); signedLat = seg[k].ay; }
+      if (k > 0) {
+        const dt = (seg[k].t - seg[k - 1].t) / 1000;
+        if (Math.abs(seg[k].wz) > 4) { accYaw += seg[k].wz * dt; if (Math.abs(accYaw) > maxSpin) maxSpin = Math.abs(accYaw); }
+      }
+    }
+    const jerkY = Math.sqrt(seg.reduce((a, x) => a + x.jy * x.jy, 0) / seg.length);
+
+    let type = '직진 급제동';
+    if (run.courseId === 'evasion') {
+      type = maxAbsLat >= 0.24 ? (signedLat < 0 ? '복합 좌측 회피' : '복합 우측 회피') : '단순 직진 제동';
+    } else if (run.courseId === 'emergency') {
+      type = maxSpin >= 20 ? '비대칭 스핀 큼 (Non-ABS 특성)' : '방향 안정 제동 (ABS 특성)';
+    } else if (run.courseId === 'straight') {
+      type = `${Math.round(entryV / 10) * 10}km/h 대역 제동`;
+    }
+
+    events.push({
+      lap: events.length + 1, type,
+      entrySpeedKmh: +entryV.toFixed(1),
+      brakeDistM: +distM.toFixed(1),
+      peakDecelG: +peakDecel.toFixed(2),
+      meanDecelG: +meanDecel.toFixed(2),
+      brakeCv: +cv.toFixed(2),
+      dropCount: drops,
+      peakLatG: +maxAbsLat.toFixed(2),
+      cumYawDeg: +maxSpin.toFixed(1),
+      jerkRmsY: +jerkY.toFixed(2),
+      tStartS: +(seg[0].t / 1000).toFixed(1)
+    });
+  };
+
+  for (let i = 0; i < s.length; i++) {
+    const act = (s[i].ax >= 0.25 || (run.courseId === 'evasion' && Math.abs(s[i].ay) >= 0.24)) && s[i].v >= 3;
+    if (act) { if (st === -1) st = i; lastAct = i; }
+    else if (st !== -1) {
+      const gap = s[i].t - s[lastAct].t;
+      if (s[i].v < 1.5 || s[i].ax < -0.10 || gap > 850) {
+        pushBrakeEv(st, s[i].v < 1.5 ? i : lastAct);
+        st = -1; lastAct = -1;
+      }
+    }
+  }
+  if (st !== -1) pushBrakeEv(st, lastAct);
+  return events;
+}
+
+function analyzeMultiLapRun(run) {
+  const events = autoSegmentCourseEvents(run);
+  const course = COURSE_MAP[run.courseId];
+  const s = run.samples;
+  const maxSpeedKmh = +Math.max(...s.map(x => x.v), 0).toFixed(1);
+  const peakDecelG = +Math.max(...s.map(x => x.ax), 0).toFixed(2);
+  const peakLatG = +Math.max(...s.map(x => Math.abs(x.ay)), 0).toFixed(2);
+
+  // 회차별 3요소 점수 산출 후 평균 + 향상도 계산
+  const scoreEvent = (ev) => {
+    let v = 80, h = 80, r = 80;
+    if (run.courseId === 'straight') {
+      v = clamp((ev.peakDecelG / 0.74) * 96);
+      h = clamp(98 - ev.dropCount * 15 - ev.brakeCv * 36);
+      r = clamp(94 - Math.max(0, ev.cumYawDeg - 8) * 2.5);
+    } else if (run.courseId === 'curve') {
+      v = clamp(96 - (ev.cumYawDeg >= 45 ? 24 : Math.max(0, ev.cumYawDeg - 18) * 0.9));
+      h = clamp(96 - (ev.brakeInCurve ? 22 : 0) - Math.max(0, ev.peakYawDps - 35) * 0.8);
+      r = clamp(96 - (ev.cumYawDeg >= 45 ? 22 : Math.max(0, ev.peakYawDps - 28) * 1.0));
+    } else if (run.courseId === 'evasion') {
+      v = clamp((ev.peakDecelG / 0.74) * 96);
+      h = clamp(96 - ev.dropCount * 14 - Math.max(0, ev.jerkRmsY - 0.85) * 16);
+      r = clamp(96 - Math.max(0, ev.cumYawDeg - 22) * 1.6);
+    } else if (run.courseId === 'piev') {
+      v = clamp((ev.peakDecelG / 0.74) * 96);
+      h = clamp(100 - Math.max(0, ev.pievS - 0.65) * 62 - (ev.preLift ? 15 : 0));
+      r = clamp(95 - Math.max(0, ev.pievDistM - 7.5) * 2.5);
+    } else if (run.courseId === 'emergency') {
+      const refG = ev.cumYawDeg >= 20 ? 0.50 : 0.74;
+      v = clamp((ev.peakDecelG / refG) * 95);
+      h = clamp(98 - ev.dropCount * 18);
+      r = clamp(100 - Math.max(0, ev.cumYawDeg - 10) * 1.8);
+    }
+    const w = course.weights;
+    return { vehicle: Math.round(v), human: Math.round(h), road: Math.round(r), total: Math.round(v * w.v + h * w.h + r * w.r) };
+  };
+
+  events.forEach(ev => { ev.scores = scoreEvent(ev); });
+
+  let scores = { vehicle: 75, human: 75, road: 75, total: 75 };
+  let firstScores = null, lastScores = null;
+  if (events.length) {
+    const n = events.length;
+    scores = {
+      vehicle: Math.round(events.reduce((a, e) => a + e.scores.vehicle, 0) / n),
+      human: Math.round(events.reduce((a, e) => a + e.scores.human, 0) / n),
+      road: Math.round(events.reduce((a, e) => a + e.scores.road, 0) / n),
+      total: Math.round(events.reduce((a, e) => a + e.scores.total, 0) / n)
+    };
+    firstScores = events[0].scores;
+    lastScores = events[events.length - 1].scores;
+  }
+
+  // 속도² 비례 검증 (직선제동 2회 이상 & 속도 차 15km/h 이상 시)
+  let speedSqNote = null;
+  if (run.courseId === 'straight' && events.length >= 2) {
+    const sorted = [...events].sort((a, b) => a.entrySpeedKmh - b.entrySpeedKmh);
+    const lo = sorted[0], hi = sorted[sorted.length - 1];
+    if (hi.entrySpeedKmh - lo.entrySpeedKmh >= 15 && lo.brakeDistM > 0) {
+      const ratioActual = +(hi.brakeDistM / lo.brakeDistM).toFixed(1);
+      const ratioTheory = +((hi.entrySpeedKmh / lo.entrySpeedKmh) ** 2).toFixed(1);
+      speedSqNote = `${lo.entrySpeedKmh}→${hi.entrySpeedKmh}km/h 증가 시 실 제동거리 ${lo.brakeDistM}m → ${hi.brakeDistM}m (약 ${ratioActual}배 · 이론 ${ratioTheory}배)`;
+    }
+  }
+
+  return {
+    id: run.id,
+    createdAt: run.createdAt,
+    isSim: run.isSim,
+    traineeNum: run.traineeNum,
+    traineeName: run.traineeName,
+    courseId: run.courseId,
+    courseName: run.courseName,
+    maxSpeedKmh, peakDecelG, peakLatG,
+    events, scores, firstScores, lastScores, speedSqNote,
+    samples: s
+  };
+}
+
+async function finishSoloRun() {
+  if (!activeRun) return;
+  clearInterval(activeRun.simTimer);
+  clearInterval(activeRun.uiTimer);
+  const run = activeRun;
+  activeRun = null;
+  if (wakeLock) { wakeLock.release().catch(() => {}); wakeLock = null; }
+  document.getElementById('hazardFlash').classList.remove('show');
+
+  if (run.samples.length < 10) {
+    showToast('주행 시간이 너무 짧아 저장되지 않았습니다.');
+    showScreen('view-trainee');
+    return;
+  }
+  const ses = analyzeMultiLapRun(run);
+  await dbPut(ses);
+  allSessions = await dbAll();
+  updateHomeCounter();
+  renderTraineeResult(ses);
+  showScreen('view-result');
+}
+
+/* ============================================================================
+ * 7. 교육생 직관 결과 & 비부정적 사고예방 피드백 생성
+ * ============================================================================ */
+function buildSessionFeedback(ses) {
+  const rx = [];
+  const evs = ses.events || [];
+  if (!evs.length) {
+    rx.push({ el: 'h', title: '📌 자동 감지 구간 안내', body: '뚜렷한 제동 또는 선회 구간이 감지되지 않았습니다. 지정 속도(30~50km/h 이상)로 주행 후 충분히 제동·선회해 주세요.' });
+    return rx;
+  }
+
+  if (ses.courseId === 'straight') {
+    if (ses.speedSqNote) {
+      rx.push({ el: 'v', title: '🚗 [자동차 · 속도² 제동거리 체감]', body: `${ses.speedSqNote}. 속도가 빨라질수록 제동거리가 기하급수적으로 늘어나므로 60km/h 기준 최소 45m(3~4초) 안전거리가 필수입니다.` });
+    }
+    const drops = evs.reduce((a, e) => a + e.dropCount, 0);
+    rx.push({
+      el: 'h', title: drops > 0 ? '🧠 [사람 · 단 1회 균일 제동 보완]' : '🧠 [사람 · 균일 제동 우수]',
+      body: drops > 0
+        ? `제동 중 답력을 끊어 조절한 구간(${drops}회)이 감지되었습니다. 목표물 앞에서는 단 한 번에 균일하게 밟아 정지하는 감각을 익혀 보세요.`
+        : `전 회차에서 끊어밟기 없이 안정적이고 균일한 제동을 유지했습니다.`
+    });
+  } else if (ses.courseId === 'curve') {
+    const maxYaw = Math.max(...evs.map(e => e.cumYawDeg));
+    const brkIn = evs.some(e => e.brakeInCurve);
+    rx.push({
+      el: 'r', title: maxYaw >= 45 ? '🛣️ [도로환경 · 45° 카운터스티어 한계 체감]' : '🛣️ [도로환경 · 저마찰 곡선 안정성]',
+      body: `최대 누적 요각 ${maxYaw}° (45° 초과 시 역핸들 회복 불가). 저마찰 노면에서는 작은 속도 증가도 이탈로 이어지므로 빗길 20%·빙판길 50% 사전 감속이 최선입니다.`
+    });
+    if (brkIn) {
+      rx.push({ el: 'h', title: '🧠 [사람 · 미끄럼 중 자연감속 유지]', body: '곡선 미끄럼 구간 내 급제동 개입이 감지되었습니다. 미끄러질 때는 급제동을 피하고 자연감속 상태에서 부드럽게 역핸들로 자세를 잡으세요.' });
+    }
+  } else if (ses.courseId === 'evasion') {
+    const complexCnt = evs.filter(e => e.type.includes('복합')).length;
+    rx.push({ el: 'h', title: '🧠 [사람 · 위험회피 기동 분석]', body: `총 ${evs.length}회 회피 기동(복합 좌/우 회피 ${complexCnt}회)이 자동 분석되었습니다. 회피 중에도 브레이크를 끝까지 유지하며 시선을 탈출 공간에 두세요.` });
+    rx.push({ el: 'r', title: '🛣️ [도로환경 · 과속 경계]', body: '회피 기동 숙달이 과속으로 이어지지 않도록, 실제 도로에서는 좌우 회피 공간과 3~4초 안전거리를 미리 확보하는 방어운전이 중요합니다.' });
+  } else if (ses.courseId === 'piev') {
+    const avgP = (evs.reduce((a, e) => a + e.pievS, 0) / evs.length).toFixed(2);
+    const avgD = (evs.reduce((a, e) => a + e.pievDistM, 0) / evs.length).toFixed(1);
+    rx.push({ el: 'h', title: `🧠 [사람 · 평균 PIEV 반응시간 ${avgP}초 · 공주거리 ${avgD}m]`, body: `예상 상황에서도 제동 전 무감속 이동거리(공주거리)가 평균 ${avgD}m 발생합니다. 실도로 돌발(1~3초)이나 휴대폰 조작 시 2~3배 늘어나므로 전방 주시가 필수입니다.` });
+    if (evs.length >= 2) {
+      const diff = +(evs[0].pievS - evs[evs.length - 1].pievS).toFixed(2);
+      rx.push({ el: 'v', title: '🚗 [회차별 반응 개선 추이]', body: `1회차 ${evs[0].pievS}초 → 최종 ${evs[evs.length - 1].pievS}초 (${diff >= 0 ? diff + '초 단축' : '안정 유지'}). 돌발 직후 최대 감속도를 끝까지 유지하세요.` });
+    }
+  } else if (ses.courseId === 'emergency') {
+    if (evs.length >= 2) {
+      rx.push({ el: 'v', title: '🚗 [자동차 · Non-ABS vs ABS 요각 변화 비교]', body: `1회차 누적 요각 ${evs[0].cumYawDeg}° → 최종회차 ${evs[evs.length - 1].cumYawDeg}°. 비대칭 노면(Split-μ)에서 ABS의 방향안정성 유지 효과를 수치로 확인했습니다.` });
+    }
+    const drops = evs.reduce((a, e) => a + e.dropCount, 0);
+    rx.push({
+      el: 'h', title: drops > 0 ? '🧠 [사람 · ABS 킥백 진동 유지 보완]' : '🧠 [사람 · 킥백 유지 우수]',
+      body: drops > 0
+        ? `제동 중 답력 급락(${drops}회)이 감지되었습니다. ABS 작동 시 페달 진동이 와도 정지 직전까지 강하게 유지해야 제동거리가 단축됩니다.`
+        : '페달 진동에도 끝까지 안정적인 제동 답력을 유지했습니다. 동결 노면에서는 ABS도 제동거리가 늘어나므로 감속을 습관화하세요.'
+    });
+  }
+  return rx;
+}
+
+function renderTraineeResult(ses) {
+  document.getElementById('resHeaderTitle').textContent = `${ses.courseName} · 자동 분석 완료`;
+  document.getElementById('resHeaderSub').textContent = `${ses.traineeNum}번 ${ses.traineeName} 교육생`;
+  document.getElementById('resTotalScore').textContent = `${ses.scores.total}점`;
+  document.getElementById('resLapSummary').textContent = `자동 감지 ${ses.events.length}회차`;
+  document.getElementById('resScoreV').textContent = `${ses.scores.vehicle}점`;
+  document.getElementById('resScoreH').textContent = `${ses.scores.human}점`;
+  document.getElementById('resScoreR').textContent = `${ses.scores.road}점`;
+
+  const lapBox = document.getElementById('resLapList');
+  lapBox.innerHTML = ses.events.length
+    ? ses.events.map(e => `
+      <div class="lap-card">
+        <div>
+          <span class="lap-badge">${e.lap}회차 · ${e.type}</span>
+          <div style="font-size:13px; color:#334155; margin-top:6px; font-weight:700;">${formatEventLine(ses.courseId, e)}</div>
+        </div>
+        <div style="font-size:18px; font-weight:900; color:var(--navy);">${e.scores.total}점</div>
+      </div>`).join('')
+    : '<div style="color:#94a3b8; font-size:13px;">감지된 제동/선회 회차가 없습니다.</div>';
+
+  const rx = buildSessionFeedback(ses);
+  document.getElementById('resRxList').innerHTML = rx.map(r => `<div class="rx-card ${r.el}"><div class="rx-title">${r.title}</div><div class="rx-body">${r.body}</div></div>`).join('');
+  document.getElementById('btnResDeepDive').onclick = () => {
+    openInstructor('wave', ses.id);
+  };
+}
+
+function formatEventLine(cid, e) {
+  if (cid === 'piev') return `진입 ${e.entrySpeedKmh}km/h · PIEV ${e.pievS}초 (공주 ${e.pievDistM}m) · 제동 ${e.brakeDistM}m · ${e.peakDecelG}G`;
+  if (cid === 'curve') return `진입 ${e.entrySpeedKmh}km/h · 최대 횡 ${e.peakLatG}G · 요레이트 ${e.peakYawDps}°/s · 누적 요각 ${e.cumYawDeg}°`;
+  if (cid === 'emergency') return `진입 ${e.entrySpeedKmh}km/h · 제동 ${e.brakeDistM}m · 최대 ${e.peakDecelG}G · 요각 ${e.cumYawDeg}°${e.dropCount ? ` · 킥백해제 ${e.dropCount}회` : ''}`;
+  if (cid === 'evasion') return `진입 ${e.entrySpeedKmh}km/h · 최대 ${e.peakDecelG}G · 횡 ${e.peakLatG}G · 횡저크 ${e.jerkRmsY}G/s`;
+  return `진입 ${e.entrySpeedKmh}km/h · 제동거리 ${e.brakeDistM}m · 최대 ${e.peakDecelG}G · 균일CV ${e.brakeCv}`;
+}
+
+/* ============================================================================
+ * 8. Canvas 2D 차트 (레이더 · 정지거리 · 시계열 · G-G)
+ * ============================================================================ */
+function drawRadar(canvas, firstS, lastS) {
+  const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const cx = w / 2, cy = h * 0.55, R = Math.min(w, h) * 0.34;
+  const axes = [
+    { k: 'vehicle', lbl: '🚗 자동차', a: -Math.PI / 2, c: '#2563eb' },
+    { k: 'human', lbl: '🧠 사람', a: -Math.PI / 2 + 2 * Math.PI / 3, c: '#059669' },
+    { k: 'road', lbl: '🛣️ 도로환경', a: -Math.PI / 2 + 4 * Math.PI / 3, c: '#d97706' }
+  ];
+  [0.25, 0.5, 0.75, 1].forEach(lv => {
+    ctx.beginPath();
+    axes.forEach((ax, i) => { const x = cx + Math.cos(ax.a) * R * lv, y = cy + Math.sin(ax.a) * R * lv; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.closePath(); ctx.strokeStyle = lv === 1 ? '#94a3b8' : '#e2e8f0'; ctx.stroke();
+  });
+  axes.forEach(ax => {
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.cos(ax.a) * R, cy + Math.sin(ax.a) * R); ctx.strokeStyle = '#cbd5e1'; ctx.stroke();
+    ctx.fillStyle = ax.c; ctx.font = 'bold 12.5px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(ax.lbl, cx + Math.cos(ax.a) * (R + 25), cy + Math.sin(ax.a) * (R + 22));
+  });
+  const poly = (sc, fill, stroke, dash) => {
+    if (!sc) return;
+    ctx.save(); ctx.beginPath();
+    axes.forEach((ax, i) => { const v = clamp(sc[ax.k] || 0) / 100, x = cx + Math.cos(ax.a) * R * v, y = cy + Math.sin(ax.a) * R * v; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.closePath(); ctx.fillStyle = fill; ctx.fill(); ctx.setLineDash(dash); ctx.strokeStyle = stroke; ctx.lineWidth = 2.4; ctx.stroke(); ctx.restore();
+  };
+  poly(firstS, 'rgba(148,163,184,0.2)', '#64748b', [5, 4]);
+  poly(lastS, 'rgba(37,99,235,0.24)', '#2563eb', []);
+  ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillStyle = '#64748b'; ctx.fillRect(12, 12, 12, 4); ctx.fillText('초기 회차', 28, 17);
+  ctx.fillStyle = '#2563eb'; ctx.fillRect(102, 12, 12, 4); ctx.fillText('최종 회차', 118, 17);
+}
+
+function drawStopBar(canvas, sessions) {
+  const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const decels = sessions.flatMap(s => s.events).filter(e => e.peakDecelG > 0.35).map(e => e.meanDecelG || e.peakDecelG * 0.86);
+  const pievs = sessions.flatMap(s => s.events).filter(e => e.pievS > 0).map(e => e.pievS);
+  const myG = decels.length ? decels.reduce((a, b) => a + b, 0) / decels.length : 0.68;
+  const myP = pievs.length ? pievs.reduce((a, b) => a + b, 0) / pievs.length : 0.78;
+  const v60 = 60 / 3.6, b60 = (v60 * v60) / (2 * myG * 9.80665);
+  const rows = [
+    { lbl: `예상 상황 (실측 PIEV ${myP.toFixed(2)}s)`, r: v60 * myP, b: b60 },
+    { lbl: '실도로 돌발 (매뉴얼 1.5s)', r: v60 * 1.5, b: b60 },
+    { lbl: '주의분산·휴대폰 (2.2s)', r: v60 * 2.2, b: b60 }
+  ];
+  const pad = { l: 16, r: 24, t: 32, b: 30 }, maxM = 68, pw = w - pad.l - pad.r, rh = (h - pad.t - pad.b) / 3;
+  const x45 = pad.l + (45 / maxM) * pw;
+  ctx.save(); ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(x45, pad.t - 6); ctx.lineTo(x45, h - pad.b + 4); ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 1.6; ctx.stroke(); ctx.restore();
+  ctx.fillStyle = '#dc2626'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center'; ctx.fillText('권장 안전거리 45m', x45, 16);
+
+  rows.forEach((rw, i) => {
+    const y = pad.t + i * rh + 18, wr = (rw.r / maxM) * pw, wb = (rw.b / maxM) * pw;
+    ctx.fillStyle = '#0f172a'; ctx.font = 'bold 11.5px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(rw.lbl, pad.l, y - 5);
+    ctx.fillStyle = '#f59e0b'; ctx.fillRect(pad.l, y, wr, 22);
+    ctx.fillStyle = '#2563eb'; ctx.fillRect(pad.l + wr, y, wb, 22);
+    ctx.fillStyle = '#0f172a'; ctx.fillText(`${(rw.r + rw.b).toFixed(1)}m`, pad.l + wr + wb + 5, y + 15);
+  });
+  return { myG, myP, stopSudden: v60 * 1.5 + b60 };
+}
+
+function drawLines(canvas, series, opts = {}) {
+  const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+  const pad = { l: 42, r: 14, t: 22, b: 26 }, pw = w - pad.l - pad.r, ph = h - pad.t - pad.b;
+  const pts = series.flatMap(s => s.pts);
+  if (!pts.length) return;
+  const minX = 0, maxX = Math.max(...pts.map(p => p.x), 1);
+  let minY = opts.minY ?? Math.min(...pts.map(p => p.y)), maxY = opts.maxY ?? Math.max(...pts.map(p => p.y));
+  if (maxY - minY < 0.2) { maxY += 0.5; minY -= 0.5; }
+  const mx = x => pad.l + ((x - minX) / (maxX - minX)) * pw;
+  const my = y => pad.t + ph - ((y - minY) / (maxY - minY)) * ph;
+
+  for (let i = 0; i <= 4; i++) {
+    const v = minY + (maxY - minY) * (i / 4), y = my(v);
+    ctx.beginPath(); ctx.moveTo(pad.l, y); ctx.lineTo(w - pad.r, y); ctx.strokeStyle = '#e2e8f0'; ctx.stroke();
+    ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right'; ctx.fillText(v.toFixed(opts.dec ?? 1), pad.l - 5, y + 3);
+  }
+  (opts.vLines || []).forEach(vl => {
+    const x = mx(vl.x);
+    ctx.save(); ctx.setLineDash([4, 3]); ctx.beginPath(); ctx.moveTo(x, pad.t); ctx.lineTo(x, h - pad.b); ctx.strokeStyle = '#dc2626'; ctx.stroke(); ctx.restore();
+    ctx.fillStyle = '#dc2626'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(vl.lbl, x + 3, pad.t + 11);
+  });
+  let lx = pad.l;
+  series.forEach(sr => {
+    ctx.beginPath();
+    sr.pts.forEach((p, i) => i ? ctx.lineTo(mx(p.x), my(p.y)) : ctx.moveTo(mx(p.x), my(p.y)));
+    ctx.strokeStyle = sr.color; ctx.lineWidth = 2; ctx.stroke();
+    ctx.fillStyle = sr.color; ctx.fillRect(lx, 6, 11, 4);
+    ctx.fillStyle = '#334155'; ctx.font = 'bold 10.5px sans-serif'; ctx.textAlign = 'left'; ctx.fillText(sr.name, lx + 14, 12);
+    lx += ctx.measureText(sr.name).width + 28;
+  });
+}
+
+function drawStaticGG(canvas, samples) {
+  const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height, cx = w / 2, cy = h / 2, R = Math.min(w, h) * 0.40;
+  ctx.clearRect(0, 0, w, h);
+  [0.4, 0.8, 1.0].forEach((g, i) => {
+    ctx.beginPath(); ctx.arc(cx, cy, R * g, 0, Math.PI * 2);
+    ctx.strokeStyle = i === 0 ? '#f59e0b' : '#cbd5e1'; ctx.setLineDash(i < 2 ? [4, 3] : []); ctx.stroke(); ctx.setLineDash([]);
+  });
+  ctx.beginPath(); ctx.moveTo(cx, 12); ctx.lineTo(cx, h - 12); ctx.moveTo(cx - R - 12, cy); ctx.lineTo(cx + R + 12, cy); ctx.strokeStyle = '#e2e8f0'; ctx.stroke();
+  samples.forEach(s => {
+    const px = cx + clamp(s.ay, -1.1, 1.1) * R, py = cy - clamp(s.ax, -1.1, 1.1) * R;
+    const m = Math.hypot(s.ax, s.ay);
+    ctx.beginPath(); ctx.arc(px, py, 2.3, 0, Math.PI * 2);
+    ctx.fillStyle = m > 0.7 ? 'rgba(220,38,38,0.6)' : (m > 0.4 ? 'rgba(37,99,235,0.6)' : 'rgba(5,150,105,0.5)');
+    ctx.fill();
+  });
+}
+
+/* ============================================================================
+ * 9. 5대 코스 전체 데모 데이터셋 로드 (교관 시연용)
+ * ============================================================================ */
+async function loadDemoAll5() {
+  const baseT = Date.now() - 600000;
+  for (let i = 0; i < TRAINEE_COURSES.length; i++) {
+    const cid = TRAINEE_COURSES[i].id;
+    const ses = buildDemoCourseSession(cid, baseT + i * 110000);
+    await dbPut(ses);
+  }
+  allSessions = await dbAll();
+  updateHomeCounter();
+  refreshInstructorViews();
+  showToast('5대 코스 다회차 자동 분석 데모(5건)가 로드되었습니다!');
+}
+
+function buildDemoCourseSession(cid, createdAt) {
+  const run = {
+    id: `DEMO_${cid}_${createdAt}`, createdAt, isSim: true,
+    traineeNum: '01', traineeName: '김화성(데모)',
+    courseId: cid, courseName: COURSE_MAP[cid].name,
+    samples: [], alerts: []
+  };
+  let t = 0, v = 0, d = 0, pAx = 0, pAy = 0;
+  const dt = 0.05;
+  const push = (ax, ay, wz) => {
+    d += (v / 3.6) * dt;
+    run.samples.push({ t: Math.round(t * 1000), v: +v.toFixed(2), ax: +ax.toFixed(3), ay: +ay.toFixed(3), wz: +wz.toFixed(2), jx: +((ax - pAx) / dt).toFixed(2), jy: +((ay - pAy) / dt).toFixed(2), d: +d.toFixed(2) });
+    pAx = ax; pAy = ay; t += dt;
+  };
+
+  if (cid === 'straight') {
+    [40, 60, 80].forEach((tgt, idx) => {
+      for (let k = 0; k < 48; k++) { v = Math.min(tgt, v + 0.38 * 9.81 * dt * 3.6); push(-0.38, 0, 0); }
+      while (v > 0.4) {
+        const drop = (idx === 0 && v < 26 && v > 18);
+        const ax = drop ? 0.22 : (0.68 + idx * 0.04);
+        v = Math.max(0, v - ax * 9.81 * dt * 3.6); push(ax, 0, 0);
+      }
+      for (let k = 0; k < 22; k++) push(0, 0, 0);
+    });
+  } else if (cid === 'curve') {
+    [30, 41, 39].forEach((tgt, idx) => {
+      for (let k = 0; k < 42; k++) { v = Math.min(tgt, v + 0.32 * 9.81 * dt * 3.6); push(-0.32, 0, 0); }
+      for (let k = 0; k < 60; k++) {
+        const p = k / 60;
+        const ay = (idx === 0 ? 0.25 : 0.32) * Math.sin(p * Math.PI);
+        const wz = (idx === 0 ? 18 : (idx === 1 ? 56 : 26)) * Math.sin(p * Math.PI * (idx === 1 ? 1.3 : 1));
+        const ax = (idx === 1 && p > 0.35 && p < 0.55) ? 0.38 : 0.05;
+        v = Math.max(12, v - ax * 9.81 * dt * 3.6); push(ax, ay, wz);
+      }
+      while (v > 0.4) { v = Math.max(0, v - 0.30 * 9.81 * dt * 3.6); push(0.30, 0, 0); }
+      for (let k = 0; k < 20; k++) push(0, 0, 0);
+    });
+  } else if (cid === 'evasion') {
+    [{ v: 40, dir: 0 }, { v: 48, dir: -1 }, { v: 50, dir: 1 }].forEach((pl, idx) => {
+      for (let k = 0; k < 42; k++) { v = Math.min(pl.v, v + 0.36 * 9.81 * dt * 3.6); push(-0.36, 0, 0); }
+      let bt = 0;
+      while (v > 0.4) {
+        const ax = 0.68 + idx * 0.04;
+        const ay = pl.dir * (idx === 1 ? 0.50 : 0.38) * Math.sin(Math.min(1, bt / 1.4) * Math.PI);
+        const wz = pl.dir * 22 * Math.sin(Math.min(1, bt / 1.4) * Math.PI);
+        v = Math.max(0, v - ax * 9.81 * dt * 3.6); push(ax, ay, wz); bt += dt;
+      }
+      for (let k = 0; k < 22; k++) push(0, 0, 0);
+    });
+  } else if (cid === 'emergency') {
+    [{ abs: false }, { abs: true }].forEach((pl) => {
+      for (let k = 0; k < 46; k++) { v = Math.min(50, v + 0.36 * 9.81 * dt * 3.6); push(-0.36, 0, 0); }
+      let bt = 0;
+      while (v > 0.4) {
+        const ax = pl.abs ? 0.76 : 0.48;
+        const wz = pl.abs ? 6 * Math.sin(bt * 3) : 44 * Math.sin(bt * 2.2);
+        const ay = pl.abs ? 0.06 : 0.28;
+        v = Math.max(0, v - ax * 9.81 * dt * 3.6); push(ax, ay, wz); bt += dt;
+      }
+      for (let k = 0; k < 24; k++) push(0, 0, 0);
+    });
+  } else if (cid === 'piev') {
+    [0.92, 0.76, 0.64].forEach((reactS, idx) => {
+      for (let k = 0; k < 44; k++) { v = Math.min(42, v + 0.34 * 9.81 * dt * 3.6); push(-0.34, 0, 0); }
+      const ev = { alertMs: t * 1000, alertSpeedKmh: v, alertDistM: d, brakeStartMs: null, brakeStartDistM: null, stopMs: null, stopDistM: null, peakDecelG: 0, preLift: false };
+      run.alerts.push(ev);
+      const rSteps = Math.round(reactS / dt);
+      for (let k = 0; k < rSteps; k++) push(0.01, 0, 0);
+      ev.brakeStartMs = t * 1000; ev.brakeStartDistM = d;
+      while (v > 0.4) {
+        const ax = 0.68 + idx * 0.05;
+        if (ax > ev.peakDecelG) ev.peakDecelG = ax;
+        v = Math.max(0, v - ax * 9.81 * dt * 3.6); push(ax, 0, 0);
+      }
+      ev.stopMs = t * 1000; ev.stopDistM = d;
+      for (let k = 0; k < 20; k++) push(0, 0, 0);
+    });
+  }
+  return analyzeMultiLapRun(run);
+}
+
+/* ============================================================================
+ * 10. 교관 모드 렌더링 (종합진단 · 파형 · 2.5D 내비 보정 · A4 리포트)
+ * ============================================================================ */
+function openInstructor(tab = 'diag', focusSessionId = null) {
+  showScreen('view-instructor');
+  switchInstTab(tab);
+  if (focusSessionId) {
+    document.getElementById('selWaveSession').value = focusSessionId;
+    renderWaveTab();
+  }
+}
+function switchInstTab(tab) {
+  document.querySelectorAll('.nav-tab').forEach(b => b.classList.toggle('active', b.dataset.itab === tab));
+  document.querySelectorAll('.itab-panel').forEach(p => p.classList.toggle('active', p.id === 'itab-' + tab));
+  if (tab === 'diag') renderDiagTab();
+  if (tab === 'wave') renderWaveTab();
+  if (tab === 'nav') { renderNavTabList(); drawActiveNavCanvas(); }
+  if (tab === 'report') renderReportTab();
+  updateNaviLoop();
+}
+
+function getTraineeKeys() {
+  const m = new Map();
+  allSessions.forEach(s => {
+    const k = `${s.traineeNum}번 ${s.traineeName}`;
+    if (!m.has(k)) m.set(k, k);
+  });
+  return Array.from(m.keys());
+}
+function syncTraineeDropdowns() {
+  const keys = getTraineeKeys();
+  ['selDiagTrainee', 'selRepTrainee'].forEach(id => {
+    const sel = document.getElementById(id), prev = sel.value;
+    sel.innerHTML = keys.length ? keys.map(k => `<option value="${k}">${k}</option>`).join('') : '<option value="">데이터 없음</option>';
+    if (prev && keys.includes(prev)) sel.value = prev;
+  });
+}
+function avgScore(list) {
+  if (!list.length) return null;
+  const n = list.length;
+  return {
+    vehicle: Math.round(list.reduce((a, x) => a + x.vehicle, 0) / n),
+    human: Math.round(list.reduce((a, x) => a + x.human, 0) / n),
+    road: Math.round(list.reduce((a, x) => a + x.road, 0) / n),
+    total: Math.round(list.reduce((a, x) => a + x.total, 0) / n)
+  };
+}
+
+function renderDiagTab() {
+  syncTraineeDropdowns();
+  const key = document.getElementById('selDiagTrainee').value;
+  const list = allSessions.filter(s => `${s.traineeNum}번 ${s.traineeName}` === key);
+  const firstAvg = avgScore(list.map(s => s.firstScores).filter(Boolean));
+  const lastAvg = avgScore(list.map(s => s.lastScores).filter(Boolean));
+  const cur = lastAvg || avgScore(list.map(s => s.scores));
+
+  document.getElementById('dTotal').textContent = cur ? `${cur.total}점` : '-';
+  document.getElementById('dVeh').textContent = cur ? `${cur.vehicle}점` : '-';
+  document.getElementById('dHum').textContent = cur ? `${cur.human}점` : '-';
+  document.getElementById('dRoad').textContent = cur ? `${cur.road}점` : '-';
+  document.getElementById('dTotalSub').textContent = (firstAvg && lastAvg)
+    ? `초기 ${firstAvg.total}점 → 최종 ${lastAvg.total}점 (${lastAvg.total - firstAvg.total >= 0 ? '+' : ''}${lastAvg.total - firstAvg.total})`
+    : `총 ${list.length}개 코스 집계`;
+
+  drawRadar(document.getElementById('cDiagRadar'), firstAvg, lastAvg || cur);
+  drawStopBar(document.getElementById('cDiagStop'), list);
+
+  const rxAll = list.flatMap(s => buildSessionFeedback(s)).slice(0, 6);
+  document.getElementById('dRxBox').innerHTML = rxAll.length
+    ? rxAll.map(r => `<div class="rx-card ${r.el}"><div class="rx-title">${r.title}</div><div class="rx-body">${r.body}</div></div>`).join('')
+    : '<div style="color:#94a3b8; font-size:13px;">측정 기록이 쌓이면 맞춤형 사고예방 처방이 자동 생성됩니다.</div>';
+}
+
+function renderWaveTab() {
+  const sel = document.getElementById('selWaveSession'), prev = sel.value;
+  sel.innerHTML = allSessions.length
+    ? allSessions.map(s => `<option value="${s.id}">${s.traineeNum}번 ${s.traineeName} · ${s.courseName} (${s.events.length}회 · ${s.scores.total}점)</option>`).join('')
+    : '<option value="">저장된 세션 없음</option>';
+  if (prev && allSessions.some(s => s.id === prev)) sel.value = prev;
+  const ses = allSessions.find(s => s.id === sel.value) || allSessions[0];
+  if (!ses) { document.getElementById('waveLapTable').innerHTML = ''; return; }
+
+  document.getElementById('waveLapTable').innerHTML = `<table>
+    <thead><tr><th>회차</th><th>자동 판별 유형</th><th>주요 계측 수치</th><th>3요소 점수</th><th>종합</th></tr></thead>
+    <tbody>${ses.events.map(e => `<tr>
+      <td><strong>${e.lap}회차</strong></td><td>${e.type}</td><td>${formatEventLine(ses.courseId, e)}</td>
+      <td>차 ${e.scores.vehicle} · 인 ${e.scores.human} · 도 ${e.scores.road}</td><td><strong>${e.scores.total}점</strong></td>
+    </tr>`).join('') || '<tr><td colspan="5">감지 회차 없음</td></tr>'}</tbody></table>`;
+
+  const s = ses.samples;
+  const vLines = ses.events.map(e => ({ x: e.tStartS, lbl: `#${e.lap}` }));
+  drawLines(document.getElementById('cWaveSpd'), [{ name: '속도 (km/h)', color: '#2563eb', pts: s.map(x => ({ x: x.t / 1000, y: x.v })) }], { minY: 0, dec: 0, vLines });
+  drawLines(document.getElementById('cWaveAx'), [{ name: '종감속도 (+G)', color: '#059669', pts: s.map(x => ({ x: x.t / 1000, y: x.ax })) }], { minY: -0.5, maxY: 1.0, dec: 2, vLines });
+  drawLines(document.getElementById('cWaveLatYaw'), [
+    { name: '횡가속도(G×50)', color: '#7c3aed', pts: s.map(x => ({ x: x.t / 1000, y: x.ay * 50 })) },
+    { name: '수직 요레이트(°/s)', color: '#d97706', pts: s.map(x => ({ x: x.t / 1000, y: x.wz })) }
+  ], { dec: 0, vLines });
+  drawStaticGG(document.getElementById('cWaveGG'), s);
+}
+
+function renderNavTabList() {
+  const sel = document.getElementById('selNavCourse');
+  if (!sel.options.length) {
+    sel.innerHTML = Object.entries(navCourses).map(([k, c]) => `<option value="${k}">${c.name}</option>`).join('');
+  }
+  sel.value = navState.courseId;
+  const wps = navCourses[navState.courseId].waypoints;
+  document.getElementById('navWpTbody').innerHTML = wps.map((w, i) => `
+    <tr>
+      <td><strong>${i + 1}. ${w.name}</strong></td>
+      <td>${w.zone === 'hazard' ? '⚠️ 돌발·제동' : w.zone}</td>
+      <td>${w.speed} km/h</td>
+      <td style="font-variant-numeric:tabular-nums;">${w.lat.toFixed(5)}, ${w.lon.toFixed(5)} ${w.calibrated ? '✅' : ''}</td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="startPickWp(${i})">지도 터치 지정</button>
+      </td>
+    </tr>`).join('');
+}
+
+function startPickWp(idx) {
+  navState.pickWpIdx = idx;
+  navState.mode3d = false;
+  document.getElementById('navPickHint').style.display = 'block';
+  showToast(`${idx + 1}번 웨이포인트를 배치할 지점을 지도에서 터치하세요.`);
+}
+
+function toggleNavTabSimulator() {
+  if (navState.simTimer) {
+    clearInterval(navState.simTimer); navState.simTimer = null;
+    document.getElementById('btnNavSim').textContent = '가상 주행 시연';
+    return;
+  }
+  resetNavToCourse(navState.courseId);
+  const wps = navCourses[navState.courseId].waypoints;
+  let seg = 0, done = 0;
+  document.getElementById('btnNavSim').textContent = '시연 중지';
+  navState.simTimer = setInterval(() => {
+    if (seg >= wps.length - 1) {
+      updateNavPosition(wps[wps.length - 1].lat, wps[wps.length - 1].lon, 0, navState.headingDeg);
+      clearInterval(navState.simTimer); navState.simTimer = null;
+      document.getElementById('btnNavSim').textContent = '가상 주행 시연';
+      return;
+    }
+    const p0 = wps[seg], p1 = wps[seg + 1];
+    const dist = Math.max(5, haversineM(p0.lat, p0.lon, p1.lat, p1.lon));
+    const targetSpd = Math.max(18, p0.speed || p1.speed || 30);
+    done += (targetSpd / 3.6) * 0.1;
+    if (done >= dist) { done = 0; seg++; return; }
+    const f = done / dist;
+    const lat = p0.lat + (p1.lat - p0.lat) * f, lon = p0.lon + (p1.lon - p0.lon) * f;
+    updateNavPosition(lat, lon, targetSpd, calcBearing(p0.lat, p0.lon, p1.lat, p1.lon));
+  }, 100);
+}
+
+function renderReportTab() {
+  syncTraineeDropdowns();
+  const key = document.getElementById('selRepTrainee').value;
+  const list = allSessions.filter(s => `${s.traineeNum}번 ${s.traineeName}` === key);
+  document.getElementById('repDate').textContent = new Date().toLocaleString('ko-KR');
+  if (!list.length) {
+    document.getElementById('repWho').textContent = '데이터 없음';
+    document.getElementById('repTbody').innerHTML = '<tr><td colspan="5">측정 데이터가 없습니다.</td></tr>';
+    return;
+  }
+  const firstAvg = avgScore(list.map(s => s.firstScores).filter(Boolean));
+  const lastAvg = avgScore(list.map(s => s.lastScores).filter(Boolean));
+  const cur = lastAvg || avgScore(list.map(s => s.scores));
+  document.getElementById('repWho').textContent = key;
+  document.getElementById('repRuns').textContent = `총 ${list.length}개 코스 · ${list.reduce((a, s) => a + s.events.length, 0)}회차 분석`;
+  document.getElementById('repV').textContent = `${cur.vehicle}점`;
+  document.getElementById('repH').textContent = `${cur.human}점`;
+  document.getElementById('repR').textContent = `${cur.road}점`;
+
+  const c1 = document.createElement('canvas'); c1.width = 460; c1.height = 300;
+  drawRadar(c1, firstAvg, lastAvg || cur);
+  document.getElementById('repImgRadar').src = c1.toDataURL('image/png');
+
+  const c2 = document.createElement('canvas'); c2.width = 460; c2.height = 280;
+  const sc = drawStopBar(c2, list);
+  document.getElementById('repImgStop').src = c2.toDataURL('image/png');
+
+  document.getElementById('repTbody').innerHTML = list.map(s => `<tr>
+    <td><strong>${s.courseName}</strong></td>
+    <td>${s.events.length}회</td>
+    <td>${s.events.map(e => `${e.lap}차: ${formatEventLine(s.courseId, e)}`).join('<br/>')}</td>
+    <td>차 ${s.scores.vehicle} · 인 ${s.scores.human} · 도 ${s.scores.road}</td>
+    <td><strong>${s.scores.total}점</strong></td>
+  </tr>`).join('');
+
+  const rxAll = list.flatMap(s => buildSessionFeedback(s)).slice(0, 6);
+  document.getElementById('repRxBox').innerHTML = rxAll.map(r => `<div class="rx-card ${r.el}"><div class="rx-title">${r.title}</div><div class="rx-body">${r.body}</div></div>`).join('');
+  document.getElementById('repNote').value =
+    `${key} 교육생의 연속 주행 자동 분석 결과, 종합 안전역량은 ${cur.total}점(자동차 ${cur.vehicle} / 사람 ${cur.human} / 도로환경 ${cur.road})입니다. ` +
+    `실측 감속도(${sc.myG.toFixed(2)}G) 기준 60km/h 돌발 정지거리는 약 ${sc.stopSudden.toFixed(1)}m이므로 실도로에서도 최소 45m(3~4초) 안전거리와 선제 감속을 꾸준히 실천하시기 바랍니다.`;
+}
+
+function refreshInstructorViews() {
+  renderDiagTab(); renderWaveTab(); renderReportTab();
+}
+
+/* ============================================================================
+ * 11. 초기화 & 이벤트 연결
+ * ============================================================================ */
+function renderTraineeCourses() {
+  const wrap = document.getElementById('traineeCourseList');
+  wrap.innerHTML = TRAINEE_COURSES.map(c => `
+    <button class="t-course ${c.id === selectedCourseId ? 'selected' : ''}" data-cid="${c.id}">
+      <div class="tc-left">
+        <div class="tc-ico">${c.icon}</div>
+        <div>
+          <div class="tc-name">${c.name}</div>
+          <div class="tc-sub">${c.sub}</div>
+        </div>
+      </div>
+      <span class="tc-arrow">›</span>
+    </button>
+  `).join('');
+  wrap.querySelectorAll('.t-course').forEach(btn => {
+    btn.onclick = () => { selectedCourseId = btn.dataset.cid; renderTraineeCourses(); };
+  });
+}
+
+function updateHomeCounter() {
+  document.getElementById('homeCount').textContent = allSessions.length;
+}
+
+function downloadFile(name, content, mime) {
+  const b = new Blob([content], { type: mime }), a = document.createElement('a');
+  a.href = URL.createObjectURL(b); a.download = name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+async function init() {
+  if (!window.isSecureContext) document.getElementById('httpsNotice').style.display = 'block';
+  try {
+    const u = JSON.parse(localStorage.getItem(USER_KEY) || '{}');
+    if (u.num) document.getElementById('inNumber').value = u.num;
+    if (u.name) document.getElementById('inName').value = u.name;
+  } catch (e) {}
+
+  renderTraineeCourses();
+  allSessions = await dbAll();
+  updateHomeCounter();
+  resetNavToCourse('straight');
+
+  // 교육생 메인 버튼
+  document.getElementById('btnStartReal').onclick = () => startSoloRun(false);
+  document.getElementById('btnStartSim').onclick = () => startSoloRun(true);
+  document.getElementById('btnViewMyHistory').onclick = () => openInstructor('diag');
+  document.getElementById('btnOpenInstructor').onclick = () => openInstructor('diag');
+
+  // 실시간 HUD 버튼
+  document.getElementById('btnStopRun').onclick = finishSoloRun;
+  document.getElementById('btnToggleMapFull').onclick = () => {
+    const el = document.getElementById('view-live');
+    const full = el.classList.toggle('map-full');
+    document.getElementById('btnToggleMapFull').textContent = full ? '계기판 크게' : '지도 크게';
+  };
+  document.getElementById('btnLiveMap3d').onclick = () => { navState.mode3d = !navState.mode3d; document.getElementById('btnLiveMap3d').textContent = navState.mode3d ? '2.5D' : '2D'; };
+  document.getElementById('btnLiveMapSat').onclick = () => { navState.satellite = !navState.satellite; document.getElementById('btnLiveMapSat').textContent = navState.satellite ? '일반' : '위성'; };
+  document.getElementById('btnLiveMapTheme').onclick = () => { navState.kakaoTheme = !navState.kakaoTheme; document.getElementById('btnLiveMapTheme').textContent = navState.kakaoTheme ? '카카오' : '네이버'; syncTbtHud(); };
+
+  // 결과 화면 버튼
+  document.getElementById('btnResToHome').onclick = () => showScreen('view-trainee');
+  document.getElementById('btnResNextCourse').onclick = () => showScreen('view-trainee');
+
+  // 교관 화면 버튼
+  document.getElementById('btnBackTrainee').onclick = () => showScreen('view-trainee');
+  document.querySelectorAll('.nav-tab').forEach(b => b.onclick = () => switchInstTab(b.dataset.itab));
+  document.getElementById('selDiagTrainee').onchange = renderDiagTab;
+  document.getElementById('selWaveSession').onchange = renderWaveTab;
+  document.getElementById('selRepTrainee').onchange = renderReportTab;
+  document.getElementById('btnLoadFullDemo').onclick = loadDemoAll5;
+
+  document.getElementById('btnWaveCsv').onclick = () => {
+    const ses = allSessions.find(s => s.id === document.getElementById('selWaveSession').value);
+    if (!ses) return;
+    const rows = 'time_ms,speed_kmh,decel_g,lat_g,yaw_dps,jerk_x,jerk_y,dist_m\n' +
+      ses.samples.map(x => [x.t, x.v, x.ax, x.ay, x.wz, x.jx, x.jy, x.d].join(',')).join('\n');
+    downloadFile(`TS_${ses.traineeNum}_${ses.traineeName}_${ses.courseId}.csv`, '\uFEFF' + rows, 'text/csv;charset=utf-8;');
+  };
+  document.getElementById('btnWaveDelete').onclick = async () => {
+    const id = document.getElementById('selWaveSession').value;
+    if (!id) return;
+    await dbDel(id); allSessions = await dbAll(); updateHomeCounter(); refreshInstructorViews();
+    showToast('세션이 삭제되었습니다.');
+  };
+
+  // 내비 보정 탭 버튼
+  document.getElementById('selNavCourse').onchange = (e) => { resetNavToCourse(e.target.value); renderNavTabList(); };
+  document.getElementById('btnNavSim').onclick = toggleNavTabSimulator;
+  document.getElementById('btnNavMode3d').onclick = () => { navState.mode3d = !navState.mode3d; };
+  document.getElementById('btnNavSat').onclick = () => { navState.satellite = !navState.satellite; };
+  document.getElementById('btnNavTheme').onclick = () => { navState.kakaoTheme = !navState.kakaoTheme; syncTbtHud(); };
+  document.getElementById('btnNavZoomIn').onclick = () => { navState.zoom = Math.min(19.2, navState.zoom + 0.4); };
+  document.getElementById('btnNavZoomOut').onclick = () => { navState.zoom = Math.max(15.0, navState.zoom - 0.4); };
+  document.getElementById('btnNavReset').onclick = () => {
+    navCourses[navState.courseId] = buildDefaultNavCourses()[navState.courseId];
+    saveNavCourses(); resetNavToCourse(navState.courseId); renderNavTabList();
+    showToast('기본 화성센터 좌표로 복원되었습니다.');
+  };
+  document.getElementById('btnNavAnchorGps').onclick = () => {
+    if (!navigator.geolocation) { showToast('GPS 미지원 브라우저입니다.'); return; }
+    navigator.geolocation.getCurrentPosition((pos) => {
+      const wps = navCourses[navState.courseId].waypoints;
+      const dLat = pos.coords.latitude - wps[0].lat, dLon = pos.coords.longitude - wps[0].lon;
+      wps.forEach(w => { w.lat = +(w.lat + dLat).toFixed(6); w.lon = +(w.lon + dLon).toFixed(6); w.calibrated = true; });
+      saveNavCourses(); resetNavToCourse(navState.courseId); renderNavTabList();
+      showToast('현위치 GPS 기준으로 전체 코스가 평행이동되었습니다!');
+    }, () => showToast('GPS 위치를 가져오지 못했습니다. 야외 HTTPS 환경에서 시도해 주세요.'), { enableHighAccuracy: true, timeout: 10000 });
+  };
+
+  // 지도 터치 웨이포인트 지정 (v24 좌표 역투영 정확 구현)
+  document.getElementById('tabNavCanvas').onclick = (e) => {
+    if (navState.pickWpIdx === null) return;
+    const canvas = e.currentTarget;
+    const rect = canvas.getBoundingClientRect();
+    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
+    const w = rect.width, h = rect.height;
+    const cx = w * 0.5, cy = h * (navState.mode3d ? 0.70 : 0.52);
+    const pitch = navState.mode3d ? 0.62 : 1.0;
+    const hRad = navState.mode3d ? (-navState.renderHeading * Math.PI / 180) : 0;
+    const cWorld = latLonToWorld(navState.renderLat, navState.renderLon, navState.zoom);
+    const rx = sx - cx, ry = (sy - cy) / pitch;
+    const dx = rx * Math.cos(-hRad) - ry * Math.sin(-hRad);
+    const dy = rx * Math.sin(-hRad) + ry * Math.cos(-hRad);
+    const ll = worldToLatLon(cWorld.wx + dx, cWorld.wy + dy, navState.zoom);
+    const wp = navCourses[navState.courseId].waypoints[navState.pickWpIdx];
+    wp.lat = +ll.lat.toFixed(6); wp.lon = +ll.lon.toFixed(6); wp.calibrated = true;
+    saveNavCourses();
+    navState.pickWpIdx = null;
+    document.getElementById('navPickHint').style.display = 'none';
+    renderNavTabList();
+    showToast(`${wp.name} 좌표가 지정되었습니다.`);
+  };
+
+  // 리포트 & 백업
+  document.getElementById('btnPrintA4').onclick = () => { renderReportTab(); setTimeout(() => window.print(), 120); };
+  document.getElementById('btnShareTxt').onclick = () => {
+    const txt = `[TS 화성교통안전체험교육센터 피드백]\n${document.getElementById('repNote').value}`;
+    if (navigator.share) navigator.share({ title: '화성센터 피드백', text: txt }).catch(() => {});
+    else if (navigator.clipboard) navigator.clipboard.writeText(txt).then(() => showToast('모바일 요약 텍스트가 복사되었습니다!'));
+  };
+  document.getElementById('btnBackupJson').onclick = () => {
+    if (!allSessions.length) { showToast('백업할 데이터가 없습니다.'); return; }
+    downloadFile(`TS_hwaseong_v26_${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(allSessions), 'application/json');
+  };
+  document.getElementById('inRestoreJson').onchange = async (e) => {
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const arr = JSON.parse(await f.text());
+      for (const s of arr) if (s && s.id) await dbPut(s);
+      allSessions = await dbAll(); updateHomeCounter(); refreshInstructorViews();
+      showToast(`${arr.length}건 복원 완료`);
+    } catch (err) { showToast('복원 오류: ' + err.message); }
+    e.target.value = '';
+  };
+  document.getElementById('btnWipeDb').onclick = async () => {
+    if (!confirm('저장된 모든 측정 기록을 삭제하시겠습니까?')) return;
+    await dbClear(); allSessions = []; updateHomeCounter(); refreshInstructorViews();
+    showToast('전체 기록이 초기화되었습니다.');
+  };
+}
+
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
