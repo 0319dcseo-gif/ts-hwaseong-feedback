@@ -78,53 +78,78 @@
     #view-trainee.active {
       display: flex; flex-direction: column;
       height: 100dvh; max-height: 100dvh; overflow: hidden;
+      background: #ffffff;
     }
     .home-body {
-      flex: 1; max-width: 560px; width: 100%; margin: 0 auto;
-      padding: 10px 14px 14px;
-      display: flex; flex-direction: column; justify-content: space-between; gap: 10px;
-      overflow-y: auto;
+      flex: 1; max-width: 580px; width: 100%; margin: 0 auto;
+      padding: 14px 16px 18px;
+      display: flex; flex-direction: column; gap: 14px;
+      min-height: 0; overflow-y: auto;
+    }
+    .home-id-panel {
+      background: var(--surface); border: 1.5px solid var(--border);
+      border-radius: 16px; padding: 12px 14px; flex-shrink: 0;
+    }
+    .home-course-panel {
+      flex: 1; display: flex; flex-direction: column; min-height: 250px;
     }
     .home-section-lbl {
-      font-size: 12px; font-weight: 900; color: var(--muted);
-      margin-bottom: 5px; display: flex; align-items: center; justify-content: space-between;
+      font-size: 12.5px; font-weight: 900; color: var(--text-2);
+      margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between;
     }
-    .id-grid { display: grid; grid-template-columns: 0.9fr 1.3fr; gap: 8px; }
+    .id-grid { display: grid; grid-template-columns: 0.9fr 1.35fr; gap: 9px; }
     .id-input {
-      width: 100%; padding: 10px 12px; border-radius: 11px;
-      border: 1.8px solid var(--border-strong); background: #ffffff; color: var(--text);
-      font-size: 15.5px; font-weight: 800; outline: none;
+      width: 100%; height: 46px; padding: 0 13px; border-radius: 11px;
+      border: 1.6px solid var(--border-strong); background: #ffffff; color: var(--text);
+      font-size: 16px; font-weight: 800; outline: none;
     }
     .id-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.1); }
 
-    /* 5 Courses Compact Grid (Fits 1 Screen Without Scroll!) */
+    /* 5 Courses Proportional Full-Height Grid (Zero Empty Voids!) */
     .course-grid-5 {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 0.85fr;
+      gap: 10px;
     }
     .c-tile {
       display: flex; flex-direction: column; justify-content: space-between;
-      padding: 11px 12px; border-radius: 13px;
+      padding: 14px 15px; border-radius: 16px;
       border: 2px solid var(--border); background: #ffffff;
-      cursor: pointer; text-align: left; transition: all 0.14s;
-      min-height: 76px;
+      cursor: pointer; text-align: left; transition: all 0.14s ease;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.03);
     }
-    .c-tile.full-span { grid-column: 1 / -1; min-height: 66px; flex-direction: row; align-items: center; }
+    .c-tile.full-span {
+      grid-column: 1 / -1;
+      flex-direction: row; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 14px 16px;
+    }
     .c-tile:hover { border-color: #93c5fd; background: #f8fbff; }
     .c-tile.selected {
       border-color: var(--blue); background: var(--blue-soft);
-      box-shadow: 0 3px 10px rgba(29, 78, 216, 0.14);
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.14);
     }
-    .ct-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; width: 100%; }
-    .ct-title { font-size: 15px; font-weight: 900; color: var(--text); display: flex; align-items: center; gap: 6px; }
-    .ct-sub { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+    .ct-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; }
+    .ct-ico-box {
+      width: 40px; height: 40px; border-radius: 11px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .c-tile.selected .ct-ico-box { background: var(--blue); border-color: var(--blue); color: #ffffff; }
+    .ct-text-col { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .ct-title { font-size: 16.5px; font-weight: 900; color: var(--text); letter-spacing: -0.3px; }
+    .ct-sub { font-size: 12.5px; color: var(--muted); line-height: 1.35; word-break: keep-all; }
     .ct-chip {
-      font-size: 11px; font-weight: 900; padding: 2px 7px; border-radius: 999px;
+      font-size: 11.5px; font-weight: 900; padding: 3px 9px; border-radius: 999px;
       background: var(--green-bg); color: var(--green); border: 1px solid var(--green-bd);
       white-space: nowrap; flex-shrink: 0;
     }
+    .ct-chip.sel-tag { background: var(--blue); color: #ffffff; border-color: var(--blue); }
 
     /* Prominent Bottom Actions */
-    .home-actions { display: flex; flex-direction: column; gap: 8px; }
+    .home-actions { display: flex; flex-direction: column; gap: 9px; flex-shrink: 0; }
     .btn {
       display: inline-flex; align-items: center; justify-content: center; gap: 7px;
       padding: 11px 16px; border-radius: 12px; border: none;
@@ -370,7 +395,7 @@
 
   <div class="home-body">
     <!-- 번호 & 이름 -->
-    <div>
+    <div class="home-id-panel">
       <div class="home-section-lbl"><span>1. 교육생 번호 · 이름</span><span id="homeHttpsWarn" style="color:#d97706; display:none;">HTTPS에서 센서 작동</span></div>
       <div class="id-grid">
         <input class="id-input" type="text" id="inNumber" placeholder="번호 (예: 01)" inputmode="numeric" />
@@ -378,9 +403,9 @@
       </div>
     </div>
 
-    <!-- 5대 코스 콤팩트 타일 -->
-    <div>
-      <div class="home-section-lbl"><span>2. 주행할 코스 선택</span><span style="color:var(--blue);">연속 주행 자동 분석</span></div>
+    <!-- 5대 코스 비례 풀-그리드 (빈공간 제로!) -->
+    <div class="home-course-panel">
+      <div class="home-section-lbl"><span>2. 주행할 체험 코스 선택</span><span style="color:var(--blue);">연속 주행 자동 분석</span></div>
       <div class="course-grid-5" id="traineeCourseGrid"></div>
     </div>
 
@@ -389,7 +414,7 @@
       <button class="btn-start-big" id="btnStartReal">선택한 코스 주행 시작</button>
       <button class="btn-report-big" id="btnOpenReport">
         <span>📋 내 성적표 보기</span>
-        <span class="rep-count-pill" id="homeCountPill">0개 코스 완료</span>
+        <span class="rep-count-pill" id="homeCountPill">0 / 5개 코스 완료</span>
       </button>
     </div>
   </div>
@@ -527,10 +552,11 @@
       <button class="header-btn" id="btnAdminExit">← 교육생 화면으로 잠그기</button>
     </div>
     <nav class="admin-tabs" id="adminTabs">
-      <button class="admin-tab active" data-atab="piev">1. PIEV 코스 · 돌발 금지구역</button>
+      <button class="admin-tab active" data-atab="piev">1. PIEV 코스 · 금지구역</button>
       <button class="admin-tab" data-atab="sim">2. 가상 시뮬레이션 · 예시</button>
       <button class="admin-tab" data-atab="wave">3. 교관 상세 파형 · 기록</button>
-      <button class="admin-tab" data-atab="cfg">4. 지도 보정 · 비밀번호 · 백업</button>
+      <button class="admin-tab" data-atab="score">4. 채점 기준 · 가중치</button>
+      <button class="admin-tab" data-atab="cfg">5. 지도 보정 · 비밀번호 · 백업</button>
     </nav>
   </header>
 
@@ -646,7 +672,29 @@
       </div>
     </div>
 
-    <!-- ATAB 4: 지도 GPS 보정 · 관리자 비밀번호 · 백업 -->
+    <!-- ATAB 4: 코스별 채점 기준 및 가중치 커스터마이징 -->
+    <div id="atab-score" class="atab-panel">
+      <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+          <div>
+            <div style="font-size:15.5px; font-weight:900;">⚖️ 코스별 채점 기준 · 항목별 가중치 설정</div>
+            <div style="font-size:12px; color:var(--muted);">현장 교육 목적에 맞게 각 코스의 100점 기준값과 가중치(%)를 자유롭게 조정하고 기존 기록을 즉시 재채점할 수 있습니다.</div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-outline btn-sm" id="btnResetScoreCfg">기본 배점 복원</button>
+            <button class="btn btn-primary btn-sm" id="btnSaveScoreCfg">배점 저장 &amp; 전체 재채점</button>
+          </div>
+        </div>
+        <div style="padding:11px 13px; border-radius:11px; background:var(--blue-soft); border:1px solid #bfdbfe; font-size:12.5px; color:#1e3a8a; margin-bottom:14px;">
+          <strong>참고 (공단 DTG 위험운전행동기준 vs 체험교육 채점 기준):</strong>
+          일반 도로 주행(DTG)은 급감속(약 0.40G 이상)·급선회 등을 감점하지만, 체험교육은 <strong>위급 상황에서 한계를 얼마나 빠르고 강하고 안정적으로 다루는지</strong>를 평가합니다.
+          따라서 제동·돌발 코스에서는 <strong>목표 감속도(예: 0.72G) 이상 끝까지 강하게 유지할수록 100점</strong>에 가까워지고, 곡선·회피·비대칭 노면에서는 <strong>불필요한 미끄러짐·페달 뗌·커브 내 급브레이크가 없을수록 100점</strong>이 되도록 설계되었습니다.
+        </div>
+        <div id="scoreCfgEditor"></div>
+      </div>
+    </div>
+
+    <!-- ATAB 5: 지도 GPS 보정 · 관리자 비밀번호 · 백업 -->
     <div id="atab-cfg" class="atab-panel">
       <div class="grid-2">
         <div class="card">
@@ -734,10 +782,28 @@ const USER_KEY = 'ts_hwaseong_v28_user';
 const PW_KEY = 'ts_hwaseong_v28_pw';
 const SHIFT_KEY = 'ts_hwaseong_v28_shift';
 const PIEV_CFG_KEY = 'ts_hwaseong_v28_piev_course';
+const SCORE_CFG_KEY = 'ts_hwaseong_v28_score_cfg';
+
+const DEFAULT_SCORE_CFG = {
+  straight:  { wForce: 40, wHold: 35, wStab: 25, refAbsG: 0.72, refNonAbsG: 0.48, dropPenalty: 18, yawAllowDeg: 12, yawPenaltyPerDeg: 1.5 },
+  emergency: { wForce: 55, wSmooth: 45, refG: 0.72, dropPenalty: 15, cvAllow: 0.20, cvPenaltyScale: 80 },
+  curve:     { wSlip: 65, wNoBrake: 35, yawAllowDeg: 18, yawPenaltyPerDeg: 1.0, spin45ExtraPenalty: 15, brakeInCurvePenalty: 30 },
+  evasion:   { wForce: 45, wSmooth: 55, refG: 0.72, jerkAllow: 0.90, jerkPenaltyScale: 22, dropPenalty: 12 },
+  piev:      { wReact: 65, wForce: 35, bestReactS: 0.65, reactPenaltyPerSec: 60, refG: 0.72 }
+};
+
+function loadScoreCfg() {
+  const saved = loadJson(SCORE_CFG_KEY, {});
+  const out = {};
+  Object.keys(DEFAULT_SCORE_CFG).forEach(k => { out[k] = Object.assign({}, DEFAULT_SCORE_CFG[k], saved[k] || {}); });
+  return out;
+}
+function saveScoreCfg() { localStorage.setItem(SCORE_CFG_KEY, JSON.stringify(scoreCfg)); }
 
 let dbPromise = null, allSessions = [];
 let mapShift = loadJson(SHIFT_KEY, { dLat: 0, dLon: 0 });
 let customPiev = loadCustomPiev();
+let scoreCfg = loadScoreCfg();
 
 function loadJson(key, fallback) {
   try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; } catch (e) { return fallback; }
@@ -1627,21 +1693,41 @@ function explainEventPlain(cid, e) {
   };
 }
 
+function weightedAvg(pairs) {
+  const sumW = pairs.reduce((a, p) => a + Math.max(0, p[1]), 0);
+  if (sumW <= 0) return 0;
+  return Math.round(pairs.reduce((a, p) => a + clamp(p[0]) * Math.max(0, p[1]), 0) / sumW);
+}
+
 function scoreEventSimple(cid, e) {
+  const c = scoreCfg[cid] || DEFAULT_SCORE_CFG[cid];
   if (cid === 'straight') {
-    const refG = e.cumYawDeg >= 20 ? 0.50 : 0.74;
-    return Math.round(clamp((e.peakDecelG / refG) * 95) * 0.4 + clamp(98 - e.dropCount * 18) * 0.35 + clamp(100 - Math.max(0, e.cumYawDeg - 12) * 1.4) * 0.25);
+    const refG = e.cumYawDeg >= 20 ? c.refNonAbsG : c.refAbsG;
+    const pForce = clamp((e.peakDecelG / Math.max(0.2, refG)) * 100);
+    const pHold = clamp(100 - e.dropCount * c.dropPenalty);
+    const pStab = clamp(100 - Math.max(0, e.cumYawDeg - c.yawAllowDeg) * c.yawPenaltyPerDeg);
+    return weightedAvg([[pForce, c.wForce], [pHold, c.wHold], [pStab, c.wStab]]);
   }
   if (cid === 'emergency') {
-    return Math.round(clamp((e.peakDecelG / 0.74) * 96) * 0.55 + clamp(98 - e.dropCount * 15 - e.brakeCv * 35) * 0.45);
+    const pForce = clamp((e.peakDecelG / Math.max(0.2, c.refG)) * 100);
+    const cvExcess = Math.max(0, (e.brakeCv || 0) - c.cvAllow);
+    const pSmooth = clamp(100 - e.dropCount * c.dropPenalty - cvExcess * c.cvPenaltyScale);
+    return weightedAvg([[pForce, c.wForce], [pSmooth, c.wSmooth]]);
   }
   if (cid === 'curve') {
-    return Math.round(clamp(96 - (e.cumYawDeg >= 45 ? 26 : Math.max(0, e.cumYawDeg - 18) * 0.95)) * 0.65 + (e.brakeInCurve ? 72 : 96) * 0.35);
+    const over45 = e.cumYawDeg >= 45 ? c.spin45ExtraPenalty : 0;
+    const pSlip = clamp(100 - Math.max(0, e.cumYawDeg - c.yawAllowDeg) * c.yawPenaltyPerDeg - over45);
+    const pNoBrk = e.brakeInCurve ? clamp(100 - c.brakeInCurvePenalty) : 100;
+    return weightedAvg([[pSlip, c.wSlip], [pNoBrk, c.wNoBrake]]);
   }
   if (cid === 'evasion') {
-    return Math.round(clamp((e.peakDecelG / 0.74) * 96) * 0.45 + clamp(96 - Math.max(0, e.jerkRmsY - 0.85) * 16 - e.dropCount * 12) * 0.55);
+    const pForce = clamp((e.peakDecelG / Math.max(0.2, c.refG)) * 100);
+    const pSmooth = clamp(100 - Math.max(0, (e.jerkRmsY || 0) - c.jerkAllow) * c.jerkPenaltyScale - e.dropCount * c.dropPenalty);
+    return weightedAvg([[pForce, c.wForce], [pSmooth, c.wSmooth]]);
   }
-  return Math.round(clamp(100 - Math.max(0, e.pievS - 0.65) * 60) * 0.65 + clamp((e.peakDecelG / 0.74) * 96) * 0.35);
+  const pReact = clamp(100 - Math.max(0, (e.pievS || 0) - c.bestReactS) * c.reactPenaltyPerSec);
+  const pForce = clamp((e.peakDecelG / Math.max(0.2, c.refG)) * 100);
+  return weightedAvg([[pReact, c.wReact], [pForce, c.wForce]]);
 }
 
 function buildGoodAndTips(ses) {
@@ -1826,12 +1912,29 @@ function renderTraineeHome() {
   const grid = document.getElementById('traineeCourseGrid');
   grid.innerHTML = TRAINEE_COURSES.map(c => {
     const done = byC[c.id];
-    return `<button class="c-tile ${c.fullSpan ? 'full-span' : ''} ${c.id === selectedCourseId ? 'selected' : ''}" data-cid="${c.id}">
-      <div class="ct-top">
-        <div class="ct-title"><span>${c.icon}</span><span>${c.name}</span></div>
-        ${done ? `<span class="ct-chip">${done.score}점</span>` : ''}
+    const isSel = c.id === selectedCourseId;
+    const badge = done ? `<span class="ct-chip">${done.score}점</span>` : (isSel ? `<span class="ct-chip sel-tag">선택됨</span>` : '');
+    if (c.fullSpan) {
+      return `<button class="c-tile full-span ${isSel ? 'selected' : ''}" data-cid="${c.id}">
+        <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+          <div class="ct-ico-box">${c.icon}</div>
+          <div class="ct-text-col">
+            <div class="ct-title">${c.name}</div>
+            <div class="ct-sub">${c.sub}</div>
+          </div>
+        </div>
+        ${badge}
+      </button>`;
+    }
+    return `<button class="c-tile ${isSel ? 'selected' : ''}" data-cid="${c.id}">
+      <div class="ct-head">
+        <div class="ct-ico-box">${c.icon}</div>
+        ${badge}
       </div>
-      <div class="ct-sub">${c.sub}</div>
+      <div class="ct-text-col" style="margin-top:8px;">
+        <div class="ct-title">${c.name}</div>
+        <div class="ct-sub">${c.sub}</div>
+      </div>
     </button>`;
   }).join('');
   grid.querySelectorAll('.c-tile').forEach(btn => {
@@ -2026,11 +2129,141 @@ function renderWaveTab() {
   drawStaticGG(document.getElementById('cWaveGG'), s);
 }
 
+function renderScoreCfgEditor() {
+  const specs = [
+    {
+      cid: 'straight', title: '🧊 1. 직선제동코스 (미끄러운 노면 ABS / Non-ABS)',
+      perfect: 'ABS 기준 목표 감속도 달성 + 페달 떨림(킥백) 해제 0회 + 허용 회전각 이내 똑바로 정지 시 100점',
+      weights: [
+        { k: 'wForce', lbl: '제동력 가중치 (%)' },
+        { k: 'wHold', lbl: '페달 유지(안뗌) 가중치 (%)' },
+        { k: 'wStab', lbl: '방향 안정성 가중치 (%)' }
+      ],
+      params: [
+        { k: 'refAbsG', lbl: 'ABS 만점 감속도 (G)', step: '0.02' },
+        { k: 'refNonAbsG', lbl: 'Non-ABS 기준 감속도 (G)', step: '0.02' },
+        { k: 'dropPenalty', lbl: '페달 해제 1회 감점', step: '1' },
+        { k: 'yawAllowDeg', lbl: '허용 회전각 (°)', step: '1' },
+        { k: 'yawPenaltyPerDeg', lbl: '초과 1°당 감점', step: '0.1' }
+      ]
+    },
+    {
+      cid: 'emergency', title: '🛑 2. 긴급제동코스 (시속 40·50km 강한 제동)',
+      perfect: '목표 감속도 이상 + 중간에 페달 끊어밟기 0회 + 일정한 감속 유지 시 100점',
+      weights: [
+        { k: 'wForce', lbl: '최대 제동력 가중치 (%)' },
+        { k: 'wSmooth', lbl: '균일 제동(안뗌) 가중치 (%)' }
+      ],
+      params: [
+        { k: 'refG', lbl: '만점 감속도 (G)', step: '0.02' },
+        { k: 'dropPenalty', lbl: '끊어밟기 1회 감점', step: '1' },
+        { k: 'cvAllow', lbl: '자연 변동 허용 (CV)', step: '0.02' },
+        { k: 'cvPenaltyScale', lbl: '불균일 감점 계수', step: '5' }
+      ]
+    },
+    {
+      cid: 'curve', title: '🔄 3. 곡선제동코스 (미끄러운 커브 주행)',
+      perfect: '허용 회전각 이내 안정 선회 + 커브 안에서 급브레이크 개입 없음 시 100점',
+      weights: [
+        { k: 'wSlip', lbl: '미끄러짐 억제 가중치 (%)' },
+        { k: 'wNoBrake', lbl: '커브 안 급제동 금지 (%)' }
+      ],
+      params: [
+        { k: 'yawAllowDeg', lbl: '안정 허용 회전각 (°)', step: '1' },
+        { k: 'yawPenaltyPerDeg', lbl: '초과 1°당 감점', step: '0.1' },
+        { k: 'spin45ExtraPenalty', lbl: '45° 초과 추가 감점', step: '1' },
+        { k: 'brakeInCurvePenalty', lbl: '커브 급제동 시 감점', step: '1' }
+      ]
+    },
+    {
+      cid: 'evasion', title: '⚡ 4. 위험회피코스 (장애물 급제동 · 차로 회피)',
+      perfect: '목표 감속도 달성 + 허용 출렁임(횡저크) 이내 부드러운 회피 + 페달 해제 0회 시 100점',
+      weights: [
+        { k: 'wForce', lbl: '긴급 제동력 가중치 (%)' },
+        { k: 'wSmooth', lbl: '부드러운 회피·유지 (%)' }
+      ],
+      params: [
+        { k: 'refG', lbl: '만점 감속도 (G)', step: '0.02' },
+        { k: 'jerkAllow', lbl: '허용 출렁임 (G/s)', step: '0.05' },
+        { k: 'jerkPenaltyScale', lbl: '출렁임 초과 감점계수', step: '1' },
+        { k: 'dropPenalty', lbl: '페달 해제 1회 감점', step: '1' }
+      ]
+    },
+    {
+      cid: 'piev', title: '🚨 5. PIEV 반응 측정 (전용 코스 돌발 반응)',
+      perfect: '만점 반응시간 이내 브레이크 조작 + 목표 감속도 이상 강제동 시 100점',
+      weights: [
+        { k: 'wReact', lbl: '돌발 반응속도 가중치 (%)' },
+        { k: 'wForce', lbl: '돌발 후 제동력 가중치 (%)' }
+      ],
+      params: [
+        { k: 'bestReactS', lbl: '만점 반응시간 (초)', step: '0.05' },
+        { k: 'reactPenaltyPerSec', lbl: '초과 1초당 감점', step: '5' },
+        { k: 'refG', lbl: '만점 감속도 (G)', step: '0.02' }
+      ]
+    }
+  ];
+
+  const box = document.getElementById('scoreCfgEditor');
+  box.innerHTML = specs.map(sp => {
+    const cfg = scoreCfg[sp.cid];
+    const sumW = sp.weights.reduce((a, w) => a + Number(cfg[w.k] || 0), 0);
+    return `<div style="border:1.5px solid var(--border); border-radius:13px; padding:13px 14px; margin-bottom:11px; background:#fff;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:5px;">
+        <strong style="font-size:14px; color:var(--text);">${sp.title}</strong>
+        <span id="wsum_${sp.cid}" style="font-size:12px; font-weight:900; padding:2px 9px; border-radius:999px; background:${sumW === 100 ? 'var(--green-bg)' : 'var(--amber-bg)'}; color:${sumW === 100 ? 'var(--green)' : 'var(--amber)'};">가중치 합계: ${sumW}%</span>
+      </div>
+      <div style="font-size:12px; color:var(--muted); margin-bottom:10px;">🎯 <strong>100점 조건:</strong> ${sp.perfect}</div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:8px; margin-bottom:8px;">
+        ${sp.weights.map(w => `<div>
+          <label style="display:block; font-size:11.5px; font-weight:800; color:var(--blue); margin-bottom:3px;">${w.lbl}</label>
+          <input type="number" step="5" min="0" max="100" data-sc-cid="${sp.cid}" data-sc-key="${w.k}" data-sc-w="1" value="${cfg[w.k]}"
+            style="width:100%; padding:7px 9px; border-radius:8px; border:1.5px solid #93c5fd; font-weight:800; font-size:13.5px;" />
+        </div>`).join('')}
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(145px, 1fr)); gap:8px;">
+        ${sp.params.map(p => `<div>
+          <label style="display:block; font-size:11px; font-weight:700; color:var(--muted); margin-bottom:3px;">${p.lbl}</label>
+          <input type="number" step="${p.step}" data-sc-cid="${sp.cid}" data-sc-key="${p.k}" value="${cfg[p.k]}"
+            style="width:100%; padding:6px 8px; border-radius:8px; border:1.5px solid var(--border-strong); font-weight:700; font-size:13px;" />
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+
+  box.querySelectorAll('input[data-sc-w="1"]').forEach(inp => {
+    inp.oninput = () => {
+      const cid = inp.dataset.scCid;
+      let s = 0;
+      box.querySelectorAll(`input[data-sc-cid="${cid}"][data-sc-w="1"]`).forEach(x => { s += Number(x.value || 0); });
+      const badge = document.getElementById('wsum_' + cid);
+      badge.textContent = `가중치 합계: ${s}%` + (s !== 100 ? ' (자동비율보정)' : '');
+      badge.style.background = s === 100 ? 'var(--green-bg)' : 'var(--amber-bg)';
+      badge.style.color = s === 100 ? 'var(--green)' : 'var(--amber)';
+    };
+  });
+}
+
+async function recalculateAllSessions() {
+  for (const s of allSessions) {
+    if (Array.isArray(s.events)) {
+      s.events.forEach(e => { e.score = scoreEventSimple(s.courseId, e); });
+      s.score = s.events.length ? Math.round(s.events.reduce((a, e) => a + e.score, 0) / s.events.length) : 75;
+      s.feedback = buildGoodAndTips(s);
+      await dbPut(s);
+    }
+  }
+  allSessions = await dbAll();
+  renderTraineeHome();
+  renderWaveTab();
+}
+
 function switchAdminTab(tab) {
   document.querySelectorAll('.admin-tab').forEach(b => b.classList.toggle('active', b.dataset.atab === tab));
   document.querySelectorAll('.atab-panel').forEach(p => p.classList.toggle('active', p.id === 'atab-' + tab));
   if (tab === 'piev') { renderPievEditorTables(); }
   if (tab === 'wave') { renderWaveTab(); }
+  if (tab === 'score') { renderScoreCfgEditor(); }
 }
 
 function downloadFile(name, content, mime) { const b = new Blob([content], { type: mime }), a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); }
@@ -2133,6 +2366,25 @@ async function init() {
       renderPievEditorTables();
       showToast(`🚫 돌발 금지구역(반경 ${rM}m) 추가됨`);
     }
+  };
+
+  // 채점 기준 · 가중치 저장 & 재채점 버튼
+  document.getElementById('btnSaveScoreCfg').onclick = async () => {
+    document.querySelectorAll('#scoreCfgEditor input[data-sc-cid]').forEach(inp => {
+      const cid = inp.dataset.scCid, key = inp.dataset.scKey, v = parseFloat(inp.value);
+      if (!isNaN(v)) scoreCfg[cid][key] = v;
+    });
+    saveScoreCfg();
+    await recalculateAllSessions();
+    showToast(`새 채점 기준이 저장되었고, 기존 기록 ${allSessions.length}건이 즉시 재채점되었습니다!`);
+  };
+  document.getElementById('btnResetScoreCfg').onclick = async () => {
+    if (!confirm('모든 코스의 채점 가중치와 기준값을 기본값으로 복원할까요?')) return;
+    scoreCfg = JSON.parse(JSON.stringify(DEFAULT_SCORE_CFG));
+    saveScoreCfg();
+    renderScoreCfgEditor();
+    await recalculateAllSessions();
+    showToast('기본 채점 기준으로 복원 및 전체 재채점 완료!');
   };
 
   // 관리자 시뮬레이션 · 파형 · 설정 버튼
